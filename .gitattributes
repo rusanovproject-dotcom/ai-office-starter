@@ -1,0 +1,36 @@
+# --- Merge strategies для append-only файлов ---
+# union — берёт строки обеих сторон, без конфликтов (работает на локальном merge)
+MEMORY.md merge=union
+CHANGELOG.md merge=union
+**/MEMORY.md merge=union
+**/learnings.md merge=union
+**/patterns.md merge=union
+office/ops/sessions/*.md merge=union
+office/ops/tracker.md merge=union
+
+# --- Бинарные — не пытаться diff'ить ---
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.mp4 binary
+*.mov binary
+*.m4a binary
+*.mp3 binary
+*.wav binary
+*.db binary
+*.sqlite binary
+*.sqlite3 binary
+
+# --- Line endings ---
+* text=auto
+*.sh text eol=lf
+*.py text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf

@@ -1,0 +1,179 @@
+#!/bin/bash
+# session-load.sh — ЕДИНСТВЕННЫЙ SessionStart-инжект офиса v3 (второй не заводить:
+# хук-налог компаундится за ход). Чистый bash: файлы >лимита в контекст НЕ грузятся.
+#
+# Инжектит по приоритету:
+#   1. Петля недели 2 (SPEC §7) — ОДНА строка незакрытого: недостроенный этап (build-log)
+#      ИЛИ открытая нить (threads.md). Два режима возврата, тон без вины.
+#   2. Профиль владельца (me/profile.md) — если онбординг ядра пройден.
+#   3. Память Директора (хвост) — если Директор развёрнут.
+#   4. До 2 сигналов: новый офис / inbox / лимиты памяти.
+# Состояние каденсов: team/ops/session-state (gitignored). Каденсы в СЕССИЯХ, не днях.
+
+OFFICE_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
+cd "$OFFICE_ROOT" || exit 0
+
+STATE_DIR="team/ops"
+STATE="$STATE_DIR/session-state"
+mkdir -p "$STATE_DIR" 2>/dev/null
+
+get_state() { grep -m1 "^$1=" "$STATE" 2>/dev/null | cut -d= -f2-; }
+set_state() {
+  local k="$1" v="$2" tmp="$STATE.tmp"
+  { grep -v "^$k=" "$STATE" 2>/dev/null; echo "$k=$v"; } > "$tmp" && mv "$tmp" "$STATE"
+}
+
+counter=$(get_state counter); counter=$((${counter:-0} + 1)); set_state counter "$counter"
+
+echo "=== [офис: контекст сессии] ==="
+
+BUILDLOG="team/ops/build-log.md"
+THREADS="team/ops/threads.md"
+PROFILE="me/profile.md"
+
+# ── 1. ПЕТЛЯ НЕДЕЛИ 2 — одна строка незакрытого (высший приоритет) ───────────
+# Источник A: недостроенный этап стройки. В build-log ищем последнюю строку
+# «Этап N: … (открыт)» — маркер незакрытого этапа. Закрытые помечены «(готов)».
+# Источник B: открытая нить (threads.md) — «в прошлый раз начали Y».
+# today.md ИСТОЧНИКОМ БЫТЬ НЕ МОЖЕТ (затирается днём) — сюда не смотрим.
+# Извлечение — через python3: bash в локали C.UTF-8 рвёт кириллицу при param-expansion/read
+# внутри скрипта (проверено: значение корраптится до одного байта). python3 обрабатывает UTF-8
+# корректно и печатает готовую строку [возврат]. Нет python3 → bash-фолбэк с ОБЩИМ сообщением
+# без интерполяции имени (имя — не критично, критичен сам факт возврата и режим).
+loop_printed=0
+if command -v python3 >/dev/null 2>&1; then
+  loop_out=$(BUILDLOG="$BUILDLOG" THREADS="$THREADS" python3 - <<'PYEOF'
+import os
+bl, th = os.environ.get('BUILDLOG',''), os.environ.get('THREADS','')
+
+def read(p):
+    try: return open(p, encoding='utf-8').read().splitlines()
+    except OSError: return []
+
+# Источник A — открытый этап стройки. Журнал может вестись append-only (закрытие дописывает
+# новую строку «(готов)», не редактируя старую «(открыт)»). Поэтому берём ПОСЛЕДНЮЮ строку
+# со статусом и считаем открытым только если её статус — «(открыт)».
+open_stage = None
+for ln in read(bl):
+    # Маркером статуса считаем ТОЛЬКО строку этапа («Этап N: …»), иначе свободный текст
+    # журнала («результат: пост (готов)») ложно гасит незакрытость и убивает петлю возврата.
+    # Терпим решётки/отступ перед «Этап» (модель иногда пишет заголовком — S2).
+    s = ln.lstrip('# ').strip()
+    if not s.startswith('Этап'):
+        continue
+    if '(открыт)' in s:
+        open_stage = s.split('(открыт)')[0].strip()
+    elif '(готов)' in s:
+        open_stage = None   # более поздний «(готов)» гасит незакрытость
+if open_stage:
+    print(f'Стройка не закрыта: «{open_stage}». Начни разговор с «мы остановились тут — '
+          f'продолжим?» (тон без вины). Режим возврата — СТРОЙКА: подхвати этап по журналу, '
+          f'не переспрашивай отвеченное.')
+else:
+    # Источник B — первая содержательная нить
+    thread = None
+    for ln in read(th):
+        s = ln.strip()
+        # пропускаем пустые, заголовки, комменты (в т.ч. хвост блок-коммента) и цитаты
+        if (not s or s.startswith('#') or s.startswith('<!--') or s.startswith('-->')
+                or s.endswith('-->') or s.startswith('>')):
+            continue
+        if s.startswith('- '): s = s[2:]
+        elif s.startswith('* '): s = s[2:]
+        if s:
+            thread = s; break
+    if thread:
+        print(f'В прошлый раз начали: «{thread}». Режим возврата — ДЕЛО: спроси, продолжаем '
+              f'это или у него другое на сегодня. Без вины.')
+PYEOF
+)
+  if [ -n "$loop_out" ]; then
+    echo ""
+    echo "[возврат] $loop_out"
+    loop_printed=1
+  fi
+fi
+if [ "$loop_printed" = 0 ]; then
+  # bash-фолбэк без python3: определяем ТОЛЬКО факт незакрытого (grep -F байт-безопасен),
+  # имя не интерполируем.
+  # append-only-безопасно: последняя строка со статусом решает (grep -F байт-безопасен)
+  last_status=""
+  [ -f "$BUILDLOG" ] && last_status=$(grep -E '^[#[:space:]]*Этап' "$BUILDLOG" 2>/dev/null | grep -F -e '(открыт)' -e '(готов)' | tail -1)
+  if printf '%s' "$last_status" | grep -qF '(открыт)'; then
+    echo ""
+    echo "[возврат] Стройка не закрыта (см. последний открытый этап в team/ops/build-log.md). Начни с «мы остановились тут — продолжим?» (без вины). Режим — СТРОЙКА: подхвати по журналу, не переспрашивай отвеченное."
+  elif [ -f "$THREADS" ] && grep -qvE '^[[:space:]]*(#|<!--|-->|>|$)' "$THREADS" 2>/dev/null; then
+    echo ""
+    echo "[возврат] Есть открытая нить (team/ops/threads.md). Режим — ДЕЛО: спроси, продолжаем прошлое или другое на сегодня. Без вины."
+  fi
+fi
+
+# ── 2. Профиль владельца / сигнал нового офиса ──────────────────────────────
+# Маркер онбординга ядра: «**Ядро собрано:** да» в profile.md (ставит этап 2).
+onboarded=false
+if [ -f "$PROFILE" ] && grep -qE 'Ядро собрано:\*{0,2}[[:space:]]*да' "$PROFILE" 2>/dev/null; then
+  onboarded=true
+  echo ""
+  echo "[профиль] me/profile.md:"
+  sed -n '1,120p' "$PROFILE"
+fi
+
+# ── 3. Хвост памяти Директора (если развёрнут — волна 1b) ────────────────────
+DMEM="team/agents/director/memory.md"
+if [ -f "$DMEM" ]; then
+  echo ""
+  echo "[память] хвост памяти Директора:"
+  tail -15 "$DMEM"
+fi
+
+# ── 4. Сигналы (максимум 2) ─────────────────────────────────────────────────
+sig_keys=(); sig_texts=()
+add_sig() { sig_keys+=("$1"); sig_texts+=("$2"); }
+
+# Новый офис: нет журнала И нет профиля → стройка ещё не начата.
+if [ ! -f "$BUILDLOG" ] && ! $onboarded; then
+  add_sig newoffice "Офис новый — стройка не начата. Если пользователь пишет что угодно (даже «привет») → это первый запуск: подключается скилл office-build, Никита-эксперт представляется и ведёт этап 1. Не жди отдельной команды."
+fi
+
+# Бэкстоп защиты «по конструкции»: есть push-remote, но ПД-гейт (pre-push) не установлен.
+# Дефолт офиса — БЕЗ remote; если владелец добавил remote, хук ОБЯЗАН стоять до первого push.
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1 && [ -n "$(git remote 2>/dev/null)" ]; then
+  hookpath=$(git config core.hooksPath 2>/dev/null); hookpath="${hookpath:-.git/hooks}"
+  if [ ! -x "$hookpath/pre-push" ] && [ ! -x ".git/hooks/pre-push" ]; then
+    add_sig prepush "⚠️ У офиса есть внешний адрес (remote), но ПД-гейт на отправку НЕ установлен — клиентские данные могут уехать без защиты. Немедленно поставь: cp .claude/hooks/pre-push-pd-gate.sh .git/hooks/pre-push && chmod +x .git/hooks/pre-push. И не делай push, пока не поставил."
+  fi
+fi
+
+# inbox с неразобранным (служебное не считаем).
+inbox_n=$(find inbox -type f ! -name "README.md" ! -name "CLAUDE.md" ! -name "INDEX.md" ! -name ".gitkeep" ! -name ".*" 2>/dev/null | wc -l | tr -d ' ')
+if [ "${inbox_n:-0}" -gt 0 ]; then
+  add_sig inbox "В inbox/ лежит файлов: $inbox_n. Скажи пользователю: «есть неразобранное — скажи \"разбери inbox\", я всё разложу»."
+fi
+
+# Лимиты памяти агентов (200 строк soft). У коуча память — папка memory/*.md;
+# архивы (archive.md, memory-archive.md) растут по конструкции — их не считаем.
+over_limit=""
+for m in team/agents/*/memory.md team/agents/*/memory/*.md; do
+  [ -f "$m" ] || continue
+  case "$(basename "$m")" in archive.md|memory-archive.md) continue ;; esac
+  ml=$(wc -l < "$m" | tr -d ' ')
+  agent_dir=$(dirname "$m"); [ "$(basename "$agent_dir")" = "memory" ] && agent_dir=$(dirname "$agent_dir")
+  [ "$ml" -gt 200 ] && over_limit="$over_limit $(basename "$agent_dir")/$(basename "$m")($ml)"
+done
+if [ -n "$over_limit" ]; then
+  add_sig memlimit "Память переросла лимит 200 строк:$over_limit. Попроси агента прибраться (дубли слить, устаревшее в memory-archive.md); текучку памяти ведёт Рита."
+fi
+
+shown=0
+if [ "${#sig_keys[@]}" -gt 0 ]; then
+  echo ""
+  echo "[сигналы] (максимум 2 за сессию, остальное подождёт)"
+fi
+for i in "${!sig_keys[@]}"; do
+  if [ "$shown" -lt 2 ]; then
+    echo "- ${sig_texts[$i]}"
+    shown=$((shown + 1))
+  fi
+done
+
+exit 0

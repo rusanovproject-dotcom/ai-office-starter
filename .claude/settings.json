@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(*.pem)",
+      "Read(**/*.pem)",
+      "Read(credentials*)",
+      "Read(**/credentials*)",
+      "Read(secrets*)",
+      "Read(**/secrets*)",
+      "Read(config.env)",
+      "Read(**/config.env)",
+      "Edit(.env)",
+      "Edit(.env.*)",
+      "Edit(**/.env)",
+      "Edit(**/.env.*)",
+      "Write(.env)",
+      "Write(.env.*)",
+      "Write(**/.env)",
+      "Write(**/.env.*)",
+      "Edit(*.pem)",
+      "Edit(**/*.pem)",
+      "Write(*.pem)",
+      "Write(**/*.pem)",
+      "Edit(credentials*)",
+      "Edit(**/credentials*)",
+      "Write(credentials*)",
+      "Write(**/credentials*)",
+      "Edit(secrets*)",
+      "Edit(**/secrets*)",
+      "Write(secrets*)",
+      "Write(**/secrets*)",
+      "Edit(config.env)",
+      "Edit(**/config.env)",
+      "Write(config.env)",
+      "Write(**/config.env)",
+      "Bash(rm -rf:*)",
+      "Bash(git push --no-verify:*)",
+      "Bash(git push --force:*)",
+      "Bash(git push --force-with-lease:*)",
+      "Bash(git reset --hard:*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/git-safety.sh snapshot"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/session-load.sh"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/prompt-inject.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

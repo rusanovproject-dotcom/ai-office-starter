@@ -1,25 +1,60 @@
-# === Секреты (никогда не в git) ===
+# ============================================================
+#  Офисный .gitignore (v3) — НЕ шаблонный публичный.
+#
+#  Философия v3: этот офис по дефолту приватный и локальный (без push-remote).
+#  clients/ здесь — АКТИВ владельца: он ДОЛЖЕН версионироваться (история карточек,
+#  восстановление после сбоя). Поэтому clients/ НЕ игнорируется.
+#  Режем только то, чему в git не место НИКОГДА: секреты, крупное медиа, служебное.
+#  Защита от публикации клиентов — не здесь, а в pre-push (публичный remote + clients/ → блок).
+# ============================================================
+
+# --- секреты (никогда) ---
 .env
 .env.*
-!.env.example
-*.key
+.envrc
 *.pem
-credentials*
-secrets*
+*.key
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+.netrc
+.pgpass
+# credentials/secrets — как файл с расширением или как папка (не «secrets-of-closing.md»)
+credentials.*
+credentials
+secrets.*
+secrets
+credentials/
+secrets/
+service-account*.json
+config.env
 
-# === Медиа (лежит на диске, в git не едет) ===
-knowledge/raw/media/
+# --- медиа: аудио/видео/сканы живут на диске в knowledge/raw/media/, в git НЕ едут ---
+# (большие блобы утопят историю; ПД клиента в голосовых/сканах; гейт >50 МБ — вторая линия)
 *.mp4
 *.mov
+*.mkv
+*.webm
 *.mp3
-*.wav
 *.m4a
+*.wav
+*.ogg
+*.oga
+*.opus
+*.aac
+*.flac
+*.pdf
+*.jpg
+*.jpeg
+*.png
+*.heic
+knowledge/raw/media/
 
-# === OS / editor ===
+# --- служебное / runtime ---
 .DS_Store
-Thumbs.db
 node_modules/
-.venv/
-__pycache__/
+team/ops/session-state
+.mcp.json
 
-# clients/ НЕ игнорируется — карточки клиентов это твой актив, они версионируются
+# clients/ НЕ игнорируется намеренно — см. шапку.
