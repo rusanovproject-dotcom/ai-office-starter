@@ -19,7 +19,7 @@ mkdir -p "$STATE_DIR" 2>/dev/null
 
 get_state() { grep -m1 "^$1=" "$STATE" 2>/dev/null | cut -d= -f2-; }
 set_state() {
-  local k="$1" v="$2" tmp="$STATE.tmp"
+  local k="$1" v="$2" tmp="$STATE.tmp.$$"   # уникальный tmp: параллельные сессии не затирают друг друга
   { grep -v "^$k=" "$STATE" 2>/dev/null; echo "$k=$v"; } > "$tmp" && mv "$tmp" "$STATE"
 }
 
@@ -127,27 +127,38 @@ if [ -f "$DMEM" ]; then
 fi
 
 # ── 4. Сигналы (максимум 2) ─────────────────────────────────────────────────
-sig_keys=(); sig_texts=()
-add_sig() { sig_keys+=("$1"); sig_texts+=("$2"); }
+sig_keys=(); sig_texts=(); sig_windows=()
+# add_sig <key> <text> [cadence_window]
+# cadence_window>0: после показа сигнал молчит столько СЕССИЙ (антидубль, IDEAS #11) —
+#   чтобы офис не бубнил одно и то же каждый заход. Пусто/0 = показывать всегда
+#   (критичные/самоочищающиеся: newoffice гаснет сам со стройкой, prepush — безопасность).
+add_sig() { sig_keys+=("$1"); sig_texts+=("$2"); sig_windows+=("${3:-0}"); }
 
 # Новый офис: нет журнала И нет профиля → стройка ещё не начата.
 if [ ! -f "$BUILDLOG" ] && ! $onboarded; then
   add_sig newoffice "Офис новый — стройка не начата. Если пользователь пишет что угодно (даже «привет») → это первый запуск: подключается скилл office-build, Никита-эксперт представляется и ведёт этап 1. Не жди отдельной команды."
 fi
 
-# Бэкстоп защиты «по конструкции»: есть push-remote, но ПД-гейт (pre-push) не установлен.
-# Дефолт офиса — БЕЗ remote; если владелец добавил remote, хук ОБЯЗАН стоять до первого push.
+# Бэкстоп защиты «по конструкции»: есть push-remote, но НАШ ПД-гейт не стоит ТАМ, КУДА СМОТРИТ git.
+# Дефолт офиса — БЕЗ remote; добавил remote → гейт обязан стоять до первого push.
+# Учитываем core.hooksPath (husky / глобальные менеджеры хуков): git исполняет pre-push ИЗ НЕГО,
+# а НЕ из .git/hooks. И сверяем СИГНАТУРУ — гасим сигнал только если по эффективному пути лежит
+# именно наш гейт, а не любой pre-push (sample/чужой шим = защита мнимая, хуже тишины).
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1 && [ -n "$(git remote 2>/dev/null)" ]; then
   hookpath=$(git config core.hooksPath 2>/dev/null); hookpath="${hookpath:-.git/hooks}"
-  if [ ! -x "$hookpath/pre-push" ] && [ ! -x ".git/hooks/pre-push" ]; then
-    add_sig prepush "⚠️ У офиса есть внешний адрес (remote), но ПД-гейт на отправку НЕ установлен — клиентские данные могут уехать без защиты. Немедленно поставь: cp .claude/hooks/pre-push-pd-gate.sh .git/hooks/pre-push && chmod +x .git/hooks/pre-push. И не делай push, пока не поставил."
+  gate_ok=0
+  if [ -x "$hookpath/pre-push" ] && grep -qF 'ПД-гейт офиса v3' "$hookpath/pre-push" 2>/dev/null; then
+    gate_ok=1
+  fi
+  if [ "$gate_ok" = 0 ]; then
+    add_sig prepush "⚠️ У офиса есть внешний адрес (remote), но ПД-гейт на отправку НЕ стоит там, куда смотрит git ($hookpath/pre-push). Клиентские данные могут уехать без проверки. Поставь ИМЕННО туда: cp .claude/hooks/pre-push-pd-gate.sh \"$hookpath/pre-push\" && chmod +x \"$hookpath/pre-push\". Не делай push, пока не поставил."
   fi
 fi
 
 # inbox с неразобранным (служебное не считаем).
 inbox_n=$(find inbox -type f ! -name "README.md" ! -name "CLAUDE.md" ! -name "INDEX.md" ! -name ".gitkeep" ! -name ".*" 2>/dev/null | wc -l | tr -d ' ')
 if [ "${inbox_n:-0}" -gt 0 ]; then
-  add_sig inbox "В inbox/ лежит файлов: $inbox_n. Скажи пользователю: «есть неразобранное — скажи \"разбери inbox\", я всё разложу»."
+  add_sig inbox "В inbox/ лежит файлов: $inbox_n. Скажи пользователю: «есть неразобранное — скажи \"разбери inbox\", я всё разложу»." 4
 fi
 
 # Лимиты памяти агентов (200 строк soft). У коуча память — папка memory/*.md;
@@ -161,18 +172,32 @@ for m in team/agents/*/memory.md team/agents/*/memory/*.md; do
   [ "$ml" -gt 200 ] && over_limit="$over_limit $(basename "$agent_dir")/$(basename "$m")($ml)"
 done
 if [ -n "$over_limit" ]; then
-  add_sig memlimit "Память переросла лимит 200 строк:$over_limit. Попроси агента прибраться (дубли слить, устаревшее в memory-archive.md); текучку памяти ведёт Рита."
+  add_sig memlimit "Память переросла лимит 200 строк:$over_limit. Попроси агента прибраться (дубли слить, устаревшее в memory-archive.md); текучку памяти ведёт Рита." 4
 fi
 
-shown=0
-if [ "${#sig_keys[@]}" -gt 0 ]; then
-  echo ""
-  echo "[сигналы] (максимум 2 за сессию, остальное подождёт)"
-fi
+# Показ сигналов. Критичные/самоочищающиеся (window=0: newoffice, prepush-безопасность) —
+# БЕЗУСЛОВНО, вне лимита и антидубля: их нельзя проглотить порядком или каденсом.
+# Cadence-сигналы (window>0: inbox, memlimit) — максимум 2 за сессию И антидубль: показанный
+# недавно молчит window сессий (реестр sig_last_<key>, каденс по counter). Заголовок — только
+# если реально что-то показали.
+cad_shown=0; header=0
 for i in "${!sig_keys[@]}"; do
-  if [ "$shown" -lt 2 ]; then
-    echo "- ${sig_texts[$i]}"
-    shown=$((shown + 1))
+  key="${sig_keys[$i]}"; win="${sig_windows[$i]:-0}"
+  if [ "$win" -gt 0 ] 2>/dev/null; then
+    [ "$cad_shown" -ge 2 ] && continue          # лимит 2 — только для cadence-сигналов
+    last=$(get_state "sig_last_$key")
+    # last>counter (битый/скопированный из другого офиса state) → НЕ подавляем: показываем
+    # и перезапишем sig_last, иначе неаварийный сигнал залипнет в тишине на сотни сессий.
+    if [ -n "$last" ] && [ "$last" -le "$counter" ] 2>/dev/null \
+         && [ "$((counter - last))" -lt "$win" ]; then
+      continue   # показан недавно → антидубль
+    fi
+  fi
+  if [ "$header" = 0 ]; then echo ""; echo "[сигналы]"; header=1; fi
+  echo "- ${sig_texts[$i]}"
+  if [ "$win" -gt 0 ] 2>/dev/null; then
+    set_state "sig_last_$key" "$counter"
+    cad_shown=$((cad_shown + 1))
   fi
 done
 
