@@ -1,0 +1,25 @@
+# === Секреты (никогда не в git) ===
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+credentials*
+secrets*
+
+# === Медиа (лежит на диске, в git не едет) ===
+knowledge/raw/media/
+*.mp4
+*.mov
+*.mp3
+*.wav
+*.m4a
+
+# === OS / editor ===
+.DS_Store
+Thumbs.db
+node_modules/
+.venv/
+__pycache__/
+
+# clients/ НЕ игнорируется — карточки клиентов это твой актив, они версионируются
