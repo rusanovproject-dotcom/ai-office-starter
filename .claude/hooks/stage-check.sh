@@ -181,6 +181,8 @@ check_stage() {
       grep -qF '](' MAP.md 2>/dev/null \
         || add_fail "в MAP.md нет ни одной ссылки — карта «где что лежит» не наполнена"
       need_unstubbed 'team/agents/rita/core.md' "Рита"
+      # память Риты пре-создана в болванке — ловим удаление/старый клон (симметрия с Директором)
+      need_file team/agents/rita/memory.md "память Риты (форма — team/agents/_memory-template.md)"
       ;;
     *)
       echo "usage: stage-check.sh 1..8 | audit" >&2
