@@ -75,6 +75,9 @@ for ln in read(bl):
         continue
     if '(открыт)' in s:
         open_stage = s.split('(открыт)')[0].strip()
+        # человеку в реплику — без служебного «Этап N:» (кухню не показываем)
+        if ':' in open_stage:
+            open_stage = open_stage.split(':', 1)[1].strip() or open_stage
     elif '(готов)' in s:
         open_stage = None   # более поздний «(готов)» гасит незакрытость
 # Пасхалка возврата: не сухая инструкция, а ГОТОВАЯ тёплая строка про реальный хвост.
@@ -207,7 +210,7 @@ fi
 # inbox с неразобранным (служебное не считаем).
 inbox_n=$(find inbox -type f ! -name "README.md" ! -name "CLAUDE.md" ! -name "INDEX.md" ! -name ".gitkeep" ! -name ".*" 2>/dev/null | wc -l | tr -d ' ')
 if [ "${inbox_n:-0}" -gt 0 ]; then
-  add_sig inbox "В inbox/ лежит файлов: $inbox_n. Скажи пользователю: «есть неразобранное — скажи \"разбери inbox\", я всё разложу»." 4
+  add_sig inbox "В inbox/ лежит файлов: $inbox_n. Скажи пользователю: «есть неразобранное — скажи \"разбери входящие\", я всё разложу»." 4
 fi
 
 # Лимиты памяти агентов (200 строк soft). У коуча память — папка memory/*.md;

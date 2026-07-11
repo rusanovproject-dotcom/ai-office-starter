@@ -56,5 +56,6 @@ knowledge/raw/media/
 node_modules/
 team/ops/session-state
 .mcp.json
+.claude/settings.local.json
 
 # clients/ НЕ игнорируется намеренно — см. шапку.
