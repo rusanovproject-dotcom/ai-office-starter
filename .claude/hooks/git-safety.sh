@@ -14,18 +14,23 @@ git rev-parse --is-inside-work-tree &>/dev/null || exit 0
 
 # --- гейт больших файлов: любой файл в рабочем дереве, не игнорируемый git, >50 МБ ---
 big_files=""
-while IFS= read -r f; do
+# -z + quotePath=false: без этого git отдаёт кириллические имена в октальном экранировании
+# («\320\262…»), [ -f ] по такой строке = false, и гейт молча пропускает файл. У русскоязычной
+# аудитории почти ВСЕ медиа-имена кириллические — гейт был бы декоративным.
+while IFS= read -r -d '' f; do
   [ -f "$f" ] || continue
   sz=$(wc -c < "$f" 2>/dev/null | tr -d ' ')
   if [ "${sz:-0}" -gt "$MAX_BYTES" ]; then
     big_files="$big_files\n     • $f ($((sz / 1024 / 1024)) МБ)"
   fi
-done < <(git ls-files --others --cached --exclude-standard 2>/dev/null)
+done < <(git -c core.quotePath=false ls-files -z --others --cached --exclude-standard 2>/dev/null)
 
 if [ -n "$big_files" ]; then
-  echo "⚠️  Git Safety: файл(ы) больше 50 МБ — в git такое не кладём (историю потом не вычистить):" >&2
-  echo -e "$big_files" >&2
-  echo "   Крупное медиа держи в knowledge/raw/media/ (эта папка вне git). Снапшот пропущен." >&2
+  # В stdout, а не stderr: SessionStart инжектит в контекст модели только stdout —
+  # предупреждение в stderr модель не увидит и владельцу не передаст.
+  echo "⚠️  Git Safety: файл(ы) больше 50 МБ — в git такое не кладём (историю потом не вычистить):"
+  echo -e "$big_files"
+  echo "   Крупное медиа держи в knowledge/raw/media/ (эта папка вне git). Снапшот пропущен."
   exit 0   # не коммитим этот заход, но и не роняем сессию
 fi
 
@@ -33,9 +38,15 @@ if [ "$MODE" = "snapshot" ]; then
   BEFORE_SHA=$(git rev-parse --short HEAD 2>/dev/null)
   echo "$BEFORE_SHA" > "$MARKER_FILE"
   if ! git diff-index --quiet HEAD -- 2>/dev/null || [ -n "$(git ls-files --others --exclude-standard)" ]; then
-    git add -A
-    git commit -m "🔒 snapshot before AI task: $(date +%Y-%m-%d\ %H:%M:%S)" --no-verify >/dev/null 2>&1
-    echo "Git Safety: snapshot created (was $BEFORE_SHA, now $(git rev-parse --short HEAD 2>/dev/null))"
+    git add -A 2>/dev/null
+    # Честность по exit-code: коммит не прошёл (чаще всего не настроены user.name/user.email) —
+    # НЕ говорим «сохранено». Ложное «snapshot created» = человек думает, что застрахован, а это не так.
+    if git commit -m "🔒 snapshot before AI task: $(date +%Y-%m-%d\ %H:%M:%S)" --no-verify >/dev/null 2>&1; then
+      echo "Git Safety: snapshot created (was $BEFORE_SHA, now $(git rev-parse --short HEAD 2>/dev/null))"
+    else
+      # stdout: иначе модель не узнает о провале и не предупредит владельца (весь смысл фикса).
+      echo "⚠️  Git Safety: снапшот НЕ создан — git commit не прошёл (обычно не настроено имя: git config user.name / user.email). Этот заход работает без страховочной копии — скажи об этом владельцу."
+    fi
   else
     echo "Git Safety: clean state, no snapshot needed ($BEFORE_SHA)"
   fi
