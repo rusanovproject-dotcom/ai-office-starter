@@ -38,6 +38,7 @@ def employee(root,slug):
     validate_registry(root)
     item=next((a for a in load_registry(root)['agents'] if a['id']==slug),None)
     if not item:raise ValueError('Нет сотрудника в реестре: '+slug)
+    if item['status']!='active':raise ValueError('Сотрудник не активирован: '+slug)
     text(root,item['core'])
     card=slots(root,item['card'])
     if 'me/goals.md' in card:
