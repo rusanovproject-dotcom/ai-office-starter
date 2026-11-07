@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "root": "/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/office-final-acceptance-z6fjt5xa/Чистый клон с пробелами",
+  "exit_code": 0,
+  "pd_gate_after_model": "PASS",
+  "actual_model_bootstrap_command": [
+    {
+      "id": "item_1",
+      "type": "command_execution",
+      "command": "/bin/zsh -lc 'python3 scripts/office/bootstrap.py'",
+      "aggregated_output": "[office-bootstrap] gate=PASS snapshot=PASS:20261107T075430-c389ab39\n\n[start] Новый офис: office-build, если нет ясной рабочей задачи.\n\n",
+      "exit_code": 0,
+      "status": "completed"
+    }
+  ],
+  "updated_goal_recalled": true,
+  "final": "Bootstrap выполнен: фактический статус gate — **PASS**, snapshot — `PASS:20261107T075430-c389ab39`.\n\nТекущая цель `study`: к 1 декабря 2026 подготовить учебную страницу с описанием услуги (проект `landing`). Цель подтверждена и активна.\n\nПамять и персонализацию не менял.",
+  "source_manifest_sha256": "4be2fcbfa2bf2260253a232832377e345679ded6ef8ea29e1f0565c3a9385ed5",
+  "auth_link_removed": true,
+  "source_updated_with_real_update_apply": true
+}

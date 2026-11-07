@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "root": "/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/office-final-acceptance-z6fjt5xa/Чистый клон с пробелами",
+  "first_final": "Создан проект «Учебная страница» (`landing`): структура, правила, карта и критерии приёмки — локальный HTML с заголовком, описанием услуги и кнопкой заявки, без публикации.\n\nЦель `study` заменена: подготовить страницу к **1 декабря 2026**, область `project:landing`, состояние `active`.\n\nЗаписи проверены. Сам HTML ещё предстоит подготовить; продолжение сохранено.\n\nПроверка запуска офиса осталась заблокирована: `install-failed`.",
+  "new_chat_final": "Твоя текущая цель **study — к 1 декабря 2026 подготовить учебную страницу с описанием услуги**. Она подтверждена 7 ноября и активна в [сохранённой памяти](me/goals.md).\n\nВ [карте проекта](projects/landing/map.md) результат определён так: локальная HTML-страница с заголовком, описанием услуги и кнопкой заявки. Проект создан, статус — «Начат».\n\nПредлагаю следующий шаг на **30 минут — подготовить текстовый черновик страницы**:\n\n- **5 минут:** выбрать услугу и обозначить, кому она нужна.\n- **15 минут:** написать заголовок и короткое описание: что предлагаешь, какую задачу решаешь, что получит человек.\n- **10 минут:** придумать текст кнопки заявки и проверить понятность всего текста.\n\nРезультат получаса — готовый текст для переноса в HTML. Сейчас ничего не менял.",
+  "canonical_goals": [
+    {
+      "id": "study",
+      "subject": "owner",
+      "kind": "intention",
+      "status": "confirmed",
+      "value": "К 1 декабря 2026 подготовить учебную страницу с описанием услуги",
+      "scope": "project:landing",
+      "horizon": "2026-12-01",
+      "state": "active",
+      "source": "Прямая подтверждённая постоянная смена цели владельцем 2026-11-07; синтетические вводные",
+      "confirmed_at": "2026-11-07"
+    }
+  ],
+  "new_project_rules": true,
+  "same_goal_id_no_duplicate": true,
+  "fresh_home_each_turn": true,
+  "auth_links_removed": true,
+  "setup": "Synthetic confirmed owner profile, old goal and active Director fixture; actual model performed correction/project creation and new-chat recall.",
+  "source_manifest_sha256": "f14baa6a9047d709f0c6d58cfaa0a932a66fc0114a908950ed372e62155f13e7",
+  "bootstrap_limitation": "Initial sandbox install-failed fixed and retested in bootstrap-runtime.json: actual model bootstrap PASS after update.apply; new goal retained."
+}

@@ -1,0 +1,10 @@
+{
+  "path": "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/dist/ai-office-starter-universal-2026-11-07.zip",
+  "sha256": "105e42c40d57da53abedab57ad49be92775e9e3c590b86024c2e2f2f5f2db52d",
+  "files": 142,
+  "candidate": false,
+  "size_bytes": 189072,
+  "source_manifest_sha256": "4be2fcbfa2bf2260253a232832377e345679ded6ef8ea29e1f0565c3a9385ed5",
+  "source_code_commit": "b6ac2047ab46a1cbfd5ca06c8fbb5f1f563be448",
+  "identical_to_runtime_tested_candidate": true
+}
