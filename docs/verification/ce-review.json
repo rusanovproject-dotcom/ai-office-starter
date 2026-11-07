@@ -1,0 +1,486 @@
+{
+  "status": "complete",
+  "verdict": "Ready with fixes",
+  "scope": {
+    "base": "735c3e6",
+    "branch": "codex/universal-client-office",
+    "head_sha": "735c3e62bdfbab884e9d6ca36c22cce69ea47a8d",
+    "pr_url": null,
+    "files_changed": 189
+  },
+  "intent": "Один локальный переносимый клиентский офис с общим каноном AGENTS/.agents, персонализацией подтверждённых фактов, наймом и изоляцией проектов. Обновление и восстановление сохраняют пользовательские байты; ZIP не содержит ПД, секретов и сессий. Результат ограничен проверенной локальной Codex/macOS scope, не утверждает readiness двух клиентов.",
+  "intent_confidence": "explicit",
+  "reviewers": [
+    "correctness",
+    "security"
+  ],
+  "findings": [
+    {
+      "#": 1,
+      "autofix_class": "gated_auto",
+      "confidence": 100,
+      "evidence": [
+        "scripts/office/privacy_gate.py:63 --             if TOKEN.search(data):raise ValueError('Potential credential in outgoing history (value redacted)')"
+      ],
+      "file": "scripts/office/privacy_gate.py",
+      "first_evidence": "scripts/office/privacy_gate.py:63 --             if TOKEN.search(data):raise ValueError('Potential credential in outgoing history (value redacted)')",
+      "independent_reviewers": [
+        "security"
+      ],
+      "line": 63,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "security"
+      ],
+      "severity": "P1",
+      "suggested_fix": "Распознавать 32+ hex в присваиваниях полям ключа/токена/секрета; сохранить отрицательные проверки SHA256 манифеста, Git SHA, URL и data URI. Добавить regression для api_key и исходящего исторического blob.",
+      "title": "CWE-200: ключи hex потеряли прежнюю проверку присваивания",
+      "why_it_matters": "32+ hex-ключ в JSON api_key проходит pre-push без проверки, даже для public/unknown remote. Это регрессия прежнего HEXKEY_RE, подтверждённая синтетическим Git-tree/blob.",
+      "validation_status": "confirmed",
+      "validation_reason": "В текущем staged tree от base735c3e6 scripts/office/privacy_gate.py:9–17,63 не распознаёт JSON api_key с 48 hex-символами, хотя base-hook содержал HEXKEY_RE:43; независимая in-memory подстановка корректного Git-tree/blob на Python3.14.6 дала PASS для notes.json при private_check=False, поэтому случай достижим при коммите такого ключа, без измерения частоты у реальных пользователей.",
+      "protected_subject": "secrets-exposure"
+    },
+    {
+      "#": 2,
+      "autofix_class": "gated_auto",
+      "confidence": 100,
+      "evidence": [
+        "scripts/office/privacy_gate.py:64 --             personal = path.startswith(('me/','work/','clients/','results/','projects/','knowledge/','team/ops/','team/agents/','.agents/skills/','.claude/skills/')) or path in ('AGENTS.md','CLAUDE.md','team/registry.json','team/map.md','MAP.md')"
+      ],
+      "file": "scripts/office/privacy_gate.py",
+      "first_evidence": "scripts/office/privacy_gate.py:64 --             personal = path.startswith(('me/','work/','clients/','results/','projects/','knowledge/','team/ops/','team/agents/','.agents/skills/','.claude/skills/')) or path in ('AGENTS.md','CLAUDE.md','team/registry.json','team/map.md','MAP.md')",
+      "independent_reviewers": [
+        "security"
+      ],
+      "line": 64,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "security"
+      ],
+      "severity": "P1",
+      "suggested_fix": "Добавить inbox/ в personal-классификатор с исключением штатных файлов по template-manifest; проверить новый и удалённый в tip исторический inbox/import.md для public/unknown remote.",
+      "title": "CWE-200: входящие клиента проходят в публичный remote",
+      "why_it_matters": "Клиентская анкета в inbox/ может уйти в public/unknown remote: каталог отсутствует в personal-классификаторе. Синтетический inbox/import.md получил PASS при private_check=False.",
+      "validation_status": "confirmed",
+      "validation_reason": "Новый scripts/office/privacy_gate.py:64–67 не включает inbox/ в проверяемые owner-пути при документированном inbox/ как месте клиентских входящих, и независимая in-memory подстановка корректного Git-tree/blob с inbox/import.md дала PASS при private_check=False на Python3.14.6, что подтверждает достижимость при коммите ещё не разобранной анкеты, без измерения реальной частоты.",
+      "protected_subject": "secrets-exposure"
+    },
+    {
+      "#": 3,
+      "autofix_class": "gated_auto",
+      "confidence": 100,
+      "evidence": [
+        "scripts/office/privacy_gate.py:8 -- SECRET_NAME=re.compile(r'(^|/)(\\.env($|\\.)|\\.envrc$|secrets($|[./])|credentials($|[./])|config\\.env$|id_(rsa|dsa|ecdsa|ed25519)|\\.netrc$|\\.pgpass$|service-account)|\\.(pem|key|mp4|mov|mkv|mp3|wav|ogg|opus|pdf|png|jpe?g|heic)$|transcript',re.I)"
+      ],
+      "file": "scripts/office/privacy_gate.py",
+      "first_evidence": "scripts/office/privacy_gate.py:8 -- SECRET_NAME=re.compile(r'(^|/)(\\.env($|\\.)|\\.envrc$|secrets($|[./])|credentials($|[./])|config\\.env$|id_(rsa|dsa|ecdsa|ed25519)|\\.netrc$|\\.pgpass$|service-account)|\\.(pem|key|mp4|mov|mkv|mp3|wav|ogg|opus|pdf|png|jpe?g|heic)$|transcript',re.I)",
+      "independent_reviewers": [
+        "security"
+      ],
+      "line": 8,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "security"
+      ],
+      "severity": "P1",
+      "suggested_fix": "Вернуть .webm, .m4a, .oga, .aac, .flac и проверить каждый формат в исходящей истории, включая удалённые в tip файлы, независимо от private/public remote.",
+      "title": "CWE-200: сокращён запрет аудио и видео в истории",
+      "why_it_matters": "Уже закоммиченные .m4a и другие ранее запрещённые медиа проходят pre-push; .gitignore это не предотвращает. Новый список потерял .webm, .m4a, .oga, .aac и .flac.",
+      "validation_status": "confirmed",
+      "validation_reason": "В staged scripts/office/privacy_gate.py:8 отсутствуют webm/m4a/oga/aac/flac, запрещённые base735c3e6:.claude/hooks/pre-push-pd-gate.sh:27, и независимая in-memory подстановка корректного Git-tree/blob voice.m4a на Python3.14.6 дала PASS при private_check=False, так что уже отслеживаемое медиа достигает пропуска независимо от .gitignore, без измерения реальной частоты.",
+      "protected_subject": "secrets-exposure"
+    },
+    {
+      "#": 4,
+      "autofix_class": "gated_auto",
+      "confidence": 100,
+      "evidence": [
+        "scripts/office/stage_check.py:84 -- if not re.search(r'^Дата: \\d{4}-\\d{2}-\\d{2}$',day,re.M) or not re.search(r'^Timezone: \\S+$',day,re.M):raise ValueError('У шапки дня нет даты/timezone')"
+      ],
+      "file": "scripts/office/stage_check.py",
+      "first_evidence": "scripts/office/stage_check.py:84 -- if not re.search(r'^Дата: \\d{4}-\\d{2}-\\d{2}$',day,re.M) or not re.search(r'^Timezone: \\S+$',day,re.M):raise ValueError('У шапки дня нет даты/timezone')",
+      "independent_reviewers": [
+        "correctness"
+      ],
+      "line": 84,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "correctness"
+      ],
+      "severity": "P2",
+      "suggested_fix": "Разбирать календарную дату и ZoneInfo до PASS; добавить regression для невозможной даты и неизвестной timezone. Корректную историческую дату оставлять допустимой.",
+      "title": "Проверяйте дату и IANA timezone перед закрытием этапа",
+      "why_it_matters": "Этап 6 закрывается с невозможной датой или неизвестной timezone, после чего MIT не попадает в контекст. Проверка 2026-99-99/Mars/Olympus даёт PASS:structure-only, а state.focus отвергает значения.",
+      "validation_status": "confirmed",
+      "validation_reason": "scripts/office/stage_check.py:84 проверяет только форму строк и в независимой проверке этой ветки на Python3.14.6 вернул PASS:structure-only отдельно для 2026-99-99 и Mars/Olympus при валидных предшествующих проверках, тогда как scripts/office/state.py:21–26 отвергает такие значения, поэтому неверно введённая шапка закрывает этап без работающего фокуса, без измерения реальной частоты.",
+      "protected_subject": null
+    }
+  ],
+  "requirements_completeness": {
+    "plan": "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/docs/plans/2026-11-07-universal-client-office.md",
+    "plan_source": "explicit",
+    "scope": "Локальный Codex/macOS объём; Claude/cross-host и другие ОС намеренно SKIPPED.",
+    "requirements": [
+      {
+        "id": "R1",
+        "status": "met",
+        "evidence": "AGENTS и .agents являются общим каноном; Claude-wrapper и materialize проверены по структуре. Runtime двух клиентов не заявлен."
+      },
+      {
+        "id": "R2",
+        "status": "met",
+        "evidence": "Чистые Codex-пробы и launcher; Claude model discovery SKIPPED по просьбе пользователя."
+      },
+      {
+        "id": "R3",
+        "status": "met",
+        "evidence": "Восемь этапов, подтверждение, отказ и польза без интервью; onboarding/foreign-facts evidence."
+      },
+      {
+        "id": "R4",
+        "status": "met",
+        "evidence": "personalize.py меняет owner-блок, профиль и выжимку; вложенные AGENTS по назначению."
+      },
+      {
+        "id": "R5",
+        "status": "met",
+        "evidence": "Единый registry, имена/алиасы, карточки, память и проектные границы."
+      },
+      {
+        "id": "R6",
+        "status": "met",
+        "evidence": "Локальная draft/probe/activation цепочка и синтетические hiring outputs."
+      },
+      {
+        "id": "R7",
+        "status": "partially addressed",
+        "evidence": "Codex resume/compact и продолжение подтверждены; смена Codex/Claude SKIPPED по решению пользователя."
+      },
+      {
+        "id": "R8",
+        "status": "partially addressed",
+        "evidence": "Исходные регрессии покрыты; новая неточная готовность этапа 6 остаётся в #4."
+      },
+      {
+        "id": "R9",
+        "status": "met",
+        "evidence": "Каноны profile/work/goals и производные; correction/continuation evidence."
+      },
+      {
+        "id": "R10",
+        "status": "met",
+        "evidence": "Update/restore/migration и байтовая сверка пользовательских файлов; дефектов сохранности не подтверждено."
+      },
+      {
+        "id": "R11",
+        "status": "partially addressed",
+        "evidence": "Нативные права разделены и проверены независимо; три подтверждённые лазейки ПД-гейта #1/#2/#3 требуют исправления."
+      },
+      {
+        "id": "R12",
+        "status": "partially addressed",
+        "evidence": "Package implementation и allowlist проверены; финальные ZIP/hash/extraction/clone остаются caller-owned завершением U8."
+      },
+      {
+        "id": "R13",
+        "status": "met",
+        "evidence": "Подтверждённое основание/действие/область/исключение; настройки не расширяют права."
+      },
+      {
+        "id": "R14",
+        "status": "met",
+        "evidence": "Project-first routing, совместимые role/skill намерения и ответственность инициатора."
+      },
+      {
+        "id": "R15",
+        "status": "met",
+        "evidence": "Три пары без/с профилем, поправка в новом чате и нерелевантная проба Codex; одна выборка, без статистической устойчивости."
+      }
+    ],
+    "implementation_units": [
+      {
+        "id": "U1",
+        "status": "met",
+        "evidence": "Исходник и regression fixtures/tests присутствуют."
+      },
+      {
+        "id": "U2",
+        "status": "met",
+        "evidence": "Общие инструкции, safe materialize и Codex discovery; Claude runtime явно SKIPPED."
+      },
+      {
+        "id": "U3",
+        "status": "met",
+        "evidence": "Подтверждённая персонализация, отказ и продолжение представлены кодом и Codex evidence."
+      },
+      {
+        "id": "U4",
+        "status": "met",
+        "evidence": "Registry/hire/project creation/routing реализованы и проверены."
+      },
+      {
+        "id": "U5",
+        "status": "partially addressed",
+        "evidence": "Адаптеры/состояние реализованы; ПД-гейт требует #1/#2/#3; Claude runtime SKIPPED."
+      },
+      {
+        "id": "U6",
+        "status": "partially addressed",
+        "evidence": "Update/restore/migration реализованы; readiness даты/timezone требует #4."
+      },
+      {
+        "id": "U7",
+        "status": "partially addressed",
+        "evidence": "Codex-поведение/paired/native lifecycle подтверждены; Claude/cross-host и другие ОС намеренно SKIPPED."
+      },
+      {
+        "id": "U8",
+        "status": "partially addressed",
+        "evidence": "Документация/package implementation и независимое review выполнены; fixes и финальная локальная упаковка остаются вызывающему владельцу."
+      }
+    ],
+    "unaddressed": [],
+    "unrequested_behavior_rules": [],
+    "reverse_check": "Новых неподтверждённых продуктовых правил не найдено; обработка конфликтов, draft-активация, доверие хукам и ограничения упаковки следуют плану.",
+    "note": "Частичные статусы отражают уже перечисленные defects и явно согласованные границы; дополнительных duplicate findings не создают."
+  },
+  "triage_groups": [
+    {
+      "title": "Граница Git: личные входящие, медиа и ключи",
+      "findings": [
+        1,
+        2,
+        3
+      ],
+      "context": "Apply-queue: три разные лазейки в одном pre-push гейте; ни одна правка не закрывает остальные.",
+      "preferred_resolution": "Закрыть #1/#2/#3 в privacy_gate.py, затем проверить исходящую историю на synthetic public/unknown/private сценариях и отсутствие ложного срабатывания на чистом манифесте.",
+      "why": "Общий прогон гейта защищает от раскрытия данных, но каждому классу нужна отдельная регрессия."
+    }
+  ],
+  "pre_existing_findings": [],
+  "learnings": [],
+  "agent_native_gaps": [],
+  "deployment_notes": [],
+  "residual_risks": [],
+  "testing_gaps": [
+    "Claude model/cross-host: SKIPPED по явному указанию пользователя.",
+    "Windows/Linux/Codex Desktop: SKIPPED; отдельная runtime-приёмка не заявлена.",
+    "Финальные ZIP/hash/extraction/clone: caller-owned U8, вне завершённой проверки исходников."
+  ],
+  "coverage": {
+    "depth": "full",
+    "notes": [
+      "Scope: standalone current checkout against base:735c3e6; includes staged and unstaged tracked changes.",
+      "Two pre-existing untracked plan files excluded from diff; explicit plan used as intent/requirements context.",
+      "No REVIEW.md exists at base; no declared Compound Packs or solutions corpus.",
+      "Office development policy overrides automatic persona expansion: two independent native reviewers cover correctness/data preservation and security/permissions including adversarial scenarios; standards and requirement traceability checked inline. Testing/maintainability/agent-native are not separate independent persona runs.",
+      "Applicable criteria use AGENTS.md/CLAUDE.md instruction-file fallback; no CODING_STANDARDS.md exists.",
+      "Cross-model pass: not run because the user explicitly prohibited external provider/peer/model code egress. Native security reviewer covers adversarial scenarios; no independent different-model corroboration is claimed.",
+      "Claude model and cross-client runtime: SKIPPED by explicit user request, not a required blocker to local ZIP scope. Earlier lifecycle-only evidence is not model acceptance.",
+      "Windows/Linux/Codex Desktop runtime: SKIPPED, not claimed. Full two-client readiness is not claimed.",
+      "Runtime evidence reviewed from existing synthetic outputs and native provenance; no new model runs performed by this review.",
+      "Final ZIP and acceptance report packaging are caller-owned U8 finish steps; review checks package implementation, not a future archive hash.",
+      "Stage timing note: dispatch event was recorded after native launches; stage cost durations are bookkeeping, not exact reviewer runtime.",
+      "Inline standards evidence saved in /tmp/compound-engineering-501/ce-code-review/20261107-143125-f5561ac8/inline-standards-check.json. Static pre-existing Nikita/card introductory line was examined; no observed repeated-interview behavior or authority conflict grounded, so no finding emitted from it.",
+      "Stage 5 mechanics retained 4 distinct findings: 3 P1 privacy-gate failures and 1 P2 stage-date validation failure; no semantic duplicates, no protected-artifact cleanup claims, no settlement suppression.",
+      "Source lines were re-read for every retained finding, and legacy media/hex checks verified at base 735c3e6. Current Git-ignore media comment is line33 (reviewer extra citation corrected from31).",
+      "The hex-key suggested fix is narrowed to credential assignment context, with clean-manifest negative coverage, because template manifests intentionally contain SHA256 values.",
+      "Validator selection: all 4 findings selected in one ordered batch; shortcut-skipped=0, since no verified different-family peer corroborated any finding.",
+      "Один отдельный validator подтвердил все четыре findings; пропусков, отклонений и infrastructure failures нет.",
+      "Stage5c пропущен: mode:agent report-only. Исходники, индекс и Git не менялись.",
+      "Полная двухклиентная готовность не утверждается. Намеренно пропущенные среды и незавершённая caller-owned упаковка не превращены в дополнительные дефекты."
+    ],
+    "suppressed_by_confidence": {},
+    "malformed_findings": 0,
+    "malformed_returns": 0,
+    "first_evidence_backfilled": 0,
+    "quote_gate_demoted": 0,
+    "mode_aware_demotions": 0,
+    "review_policy_removed": 0,
+    "review_policy_regraded": 0,
+    "settlement_suppressed": 0,
+    "semantic_duplicates": 0,
+    "validator_shortcut_skipped": 0,
+    "validator": {
+      "selected": 4,
+      "confirmed": 4,
+      "rejected": 0,
+      "unresolved": 0,
+      "malformed": 0,
+      "failed": 0,
+      "shortcut_skipped": 0,
+      "bound_exceeded": false,
+      "outcome": "verdicts",
+      "protected_subject_reclassifications": 0,
+      "incidence": "Синтетическая достижимость подтверждена; частота у реальных пользователей не измерялась."
+    },
+    "failed_reviewers": [],
+    "bound_exceeded": [],
+    "review_policy": {
+      "sources": [],
+      "removed": 0,
+      "regraded": 0,
+      "not_applied": []
+    },
+    "standards": {
+      "mode": "inline",
+      "sources": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "clients/AGENTS.md",
+        "clients/CLAUDE.md",
+        "inbox/AGENTS.md",
+        "inbox/CLAUDE.md",
+        "projects/AGENTS.md",
+        "projects/CLAUDE.md",
+        "results/AGENTS.md",
+        "results/CLAUDE.md",
+        "knowledge/AGENTS.md",
+        "knowledge/CLAUDE.md",
+        "work/AGENTS.md",
+        "work/CLAUDE.md",
+        "me/AGENTS.md",
+        "me/CLAUDE.md"
+      ],
+      "independent_persona": false
+    },
+    "not_assessed_independently": [
+      "testing persona",
+      "maintainability persona",
+      "project-standards persona",
+      "agent-native persona",
+      "learnings persona",
+      "deployment verification"
+    ],
+    "untracked_excluded": [
+      "docs/plans/2026-11-07-universal-client-office-review.md",
+      "docs/plans/2026-11-07-universal-client-office.md",
+      "docs/verification/tests.txt"
+    ]
+  },
+  "peer": {
+    "outcome": "not-run",
+    "coverage": "Cross-model pass: not run because the user explicitly prohibited external provider/peer/model code egress. Native security reviewer covers adversarial scenarios; no independent different-model corroboration is claimed."
+  },
+  "artifact_path": "/tmp/compound-engineering-501/ce-code-review/20261107-143125-f5561ac8",
+  "run_id": "20261107-143125-f5561ac8",
+  "verdict_reason": "Перед завершением локальной поставки исправить три P1 ПД-гейта (#1-#3), затем P2 даты/timezone (#4), и повторить затронутые проверки. Смена клиентов не является блокером согласованного локального объёма.",
+  "actionable_findings": [
+    {
+      "#": 1,
+      "autofix_class": "gated_auto",
+      "confidence": 100,
+      "evidence": [
+        "scripts/office/privacy_gate.py:63 --             if TOKEN.search(data):raise ValueError('Potential credential in outgoing history (value redacted)')"
+      ],
+      "file": "scripts/office/privacy_gate.py",
+      "first_evidence": "scripts/office/privacy_gate.py:63 --             if TOKEN.search(data):raise ValueError('Potential credential in outgoing history (value redacted)')",
+      "independent_reviewers": [
+        "security"
+      ],
+      "line": 63,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "security"
+      ],
+      "severity": "P1",
+      "suggested_fix": "Распознавать 32+ hex в присваиваниях полям ключа/токена/секрета; сохранить отрицательные проверки SHA256 манифеста, Git SHA, URL и data URI. Добавить regression для api_key и исходящего исторического blob.",
+      "title": "CWE-200: ключи hex потеряли прежнюю проверку присваивания",
+      "why_it_matters": "32+ hex-ключ в JSON api_key проходит pre-push без проверки, даже для public/unknown remote. Это регрессия прежнего HEXKEY_RE, подтверждённая синтетическим Git-tree/blob.",
+      "validation_status": "confirmed",
+      "validation_reason": "В текущем staged tree от base735c3e6 scripts/office/privacy_gate.py:9–17,63 не распознаёт JSON api_key с 48 hex-символами, хотя base-hook содержал HEXKEY_RE:43; независимая in-memory подстановка корректного Git-tree/blob на Python3.14.6 дала PASS для notes.json при private_check=False, поэтому случай достижим при коммите такого ключа, без измерения частоты у реальных пользователей.",
+      "protected_subject": "secrets-exposure"
+    },
+    {
+      "#": 2,
+      "autofix_class": "gated_auto",
+      "confidence": 100,
+      "evidence": [
+        "scripts/office/privacy_gate.py:64 --             personal = path.startswith(('me/','work/','clients/','results/','projects/','knowledge/','team/ops/','team/agents/','.agents/skills/','.claude/skills/')) or path in ('AGENTS.md','CLAUDE.md','team/registry.json','team/map.md','MAP.md')"
+      ],
+      "file": "scripts/office/privacy_gate.py",
+      "first_evidence": "scripts/office/privacy_gate.py:64 --             personal = path.startswith(('me/','work/','clients/','results/','projects/','knowledge/','team/ops/','team/agents/','.agents/skills/','.claude/skills/')) or path in ('AGENTS.md','CLAUDE.md','team/registry.json','team/map.md','MAP.md')",
+      "independent_reviewers": [
+        "security"
+      ],
+      "line": 64,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "security"
+      ],
+      "severity": "P1",
+      "suggested_fix": "Добавить inbox/ в personal-классификатор с исключением штатных файлов по template-manifest; проверить новый и удалённый в tip исторический inbox/import.md для public/unknown remote.",
+      "title": "CWE-200: входящие клиента проходят в публичный remote",
+      "why_it_matters": "Клиентская анкета в inbox/ может уйти в public/unknown remote: каталог отсутствует в personal-классификаторе. Синтетический inbox/import.md получил PASS при private_check=False.",
+      "validation_status": "confirmed",
+      "validation_reason": "Новый scripts/office/privacy_gate.py:64–67 не включает inbox/ в проверяемые owner-пути при документированном inbox/ как месте клиентских входящих, и независимая in-memory подстановка корректного Git-tree/blob с inbox/import.md дала PASS при private_check=False на Python3.14.6, что подтверждает достижимость при коммите ещё не разобранной анкеты, без измерения реальной частоты.",
+      "protected_subject": "secrets-exposure"
+    },
+    {
+      "#": 3,
+      "autofix_class": "gated_auto",
+      "confidence": 100,
+      "evidence": [
+        "scripts/office/privacy_gate.py:8 -- SECRET_NAME=re.compile(r'(^|/)(\\.env($|\\.)|\\.envrc$|secrets($|[./])|credentials($|[./])|config\\.env$|id_(rsa|dsa|ecdsa|ed25519)|\\.netrc$|\\.pgpass$|service-account)|\\.(pem|key|mp4|mov|mkv|mp3|wav|ogg|opus|pdf|png|jpe?g|heic)$|transcript',re.I)"
+      ],
+      "file": "scripts/office/privacy_gate.py",
+      "first_evidence": "scripts/office/privacy_gate.py:8 -- SECRET_NAME=re.compile(r'(^|/)(\\.env($|\\.)|\\.envrc$|secrets($|[./])|credentials($|[./])|config\\.env$|id_(rsa|dsa|ecdsa|ed25519)|\\.netrc$|\\.pgpass$|service-account)|\\.(pem|key|mp4|mov|mkv|mp3|wav|ogg|opus|pdf|png|jpe?g|heic)$|transcript',re.I)",
+      "independent_reviewers": [
+        "security"
+      ],
+      "line": 8,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "security"
+      ],
+      "severity": "P1",
+      "suggested_fix": "Вернуть .webm, .m4a, .oga, .aac, .flac и проверить каждый формат в исходящей истории, включая удалённые в tip файлы, независимо от private/public remote.",
+      "title": "CWE-200: сокращён запрет аудио и видео в истории",
+      "why_it_matters": "Уже закоммиченные .m4a и другие ранее запрещённые медиа проходят pre-push; .gitignore это не предотвращает. Новый список потерял .webm, .m4a, .oga, .aac и .flac.",
+      "validation_status": "confirmed",
+      "validation_reason": "В staged scripts/office/privacy_gate.py:8 отсутствуют webm/m4a/oga/aac/flac, запрещённые base735c3e6:.claude/hooks/pre-push-pd-gate.sh:27, и независимая in-memory подстановка корректного Git-tree/blob voice.m4a на Python3.14.6 дала PASS при private_check=False, так что уже отслеживаемое медиа достигает пропуска независимо от .gitignore, без измерения реальной частоты.",
+      "protected_subject": "secrets-exposure"
+    },
+    {
+      "#": 4,
+      "autofix_class": "gated_auto",
+      "confidence": 100,
+      "evidence": [
+        "scripts/office/stage_check.py:84 -- if not re.search(r'^Дата: \\d{4}-\\d{2}-\\d{2}$',day,re.M) or not re.search(r'^Timezone: \\S+$',day,re.M):raise ValueError('У шапки дня нет даты/timezone')"
+      ],
+      "file": "scripts/office/stage_check.py",
+      "first_evidence": "scripts/office/stage_check.py:84 -- if not re.search(r'^Дата: \\d{4}-\\d{2}-\\d{2}$',day,re.M) or not re.search(r'^Timezone: \\S+$',day,re.M):raise ValueError('У шапки дня нет даты/timezone')",
+      "independent_reviewers": [
+        "correctness"
+      ],
+      "line": 84,
+      "owner": "downstream-resolver",
+      "pre_existing": false,
+      "requires_verification": true,
+      "reviewers": [
+        "correctness"
+      ],
+      "severity": "P2",
+      "suggested_fix": "Разбирать календарную дату и ZoneInfo до PASS; добавить regression для невозможной даты и неизвестной timezone. Корректную историческую дату оставлять допустимой.",
+      "title": "Проверяйте дату и IANA timezone перед закрытием этапа",
+      "why_it_matters": "Этап 6 закрывается с невозможной датой или неизвестной timezone, после чего MIT не попадает в контекст. Проверка 2026-99-99/Mars/Olympus даёт PASS:structure-only, а state.focus отвергает значения.",
+      "validation_status": "confirmed",
+      "validation_reason": "scripts/office/stage_check.py:84 проверяет только форму строк и в независимой проверке этой ветки на Python3.14.6 вернул PASS:structure-only отдельно для 2026-99-99 и Mars/Olympus при валидных предшествующих проверках, тогда как scripts/office/state.py:21–26 отвергает такие значения, поэтому неверно введённая шапка закрывает этап без работающего фокуса, без измерения реальной частоты.",
+      "protected_subject": null
+    }
+  ]
+}

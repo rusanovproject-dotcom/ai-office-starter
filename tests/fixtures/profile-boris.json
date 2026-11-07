@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "facts": [
+    {
+      "id": "name",
+      "subject": "owner",
+      "kind": "fact",
+      "status": "confirmed",
+      "value": "Борис",
+      "source": "synthetic confirmed interview",
+      "confirmed_at": "2026-11-07"
+    },
+    {
+      "id": "context",
+      "subject": "owner",
+      "kind": "fact",
+      "status": "confirmed",
+      "value": "Руководитель, уже есть CRM и помощник",
+      "source": "synthetic confirmed interview",
+      "confirmed_at": "2026-11-07"
+    },
+    {
+      "id": "style",
+      "subject": "owner",
+      "kind": "preference",
+      "status": "confirmed",
+      "value": "Кратко, технически; CRM менять нельзя",
+      "source": "synthetic confirmed interview",
+      "confirmed_at": "2026-11-07"
+    }
+  ],
+  "rules": [
+    {
+      "basis": "style",
+      "action": "Предлагай решение в существующей CRM и передачу повторяемого шага помощнику; начинай с результата",
+      "scope": "Задачи об организации работы с заявками",
+      "exception": "Если возможностей CRM недостаточно, назови конкретное ограничение; не меняй систему без разрешения"
+    }
+  ],
+  "boundaries": []
+}

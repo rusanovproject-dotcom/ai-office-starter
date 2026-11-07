@@ -1,0 +1,21 @@
+test_contextual_hex_credentials_and_clean_hash_controls (test_privacy_gate.PrivacyGate.test_contextual_hex_credentials_and_clean_hash_controls) ... ok
+test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) ... ok
+test_existing_credential_formats_remain_blocked (test_privacy_gate.PrivacyGate.test_existing_credential_formats_remain_blocked) ... ok
+test_inbox_owner_data_in_current_and_deleted_history (test_privacy_gate.PrivacyGate.test_inbox_owner_data_in_current_and_deleted_history) ... ok
+test_metadata_and_unmanifested_personal_root_are_private (test_privacy_gate.PrivacyGate.test_metadata_and_unmanifested_personal_root_are_private) ... ok
+test_private_unknown_and_secret_history (test_privacy_gate.PrivacyGate.test_private_unknown_and_secret_history) ... ok
+test_zero_sha_deletion_and_unreadable_history (test_privacy_gate.PrivacyGate.test_zero_sha_deletion_and_unreadable_history) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 4.074s
+
+OK
+test_empty_coach_not_ready (test_stage_validation.Readiness.test_empty_coach_not_ready) ... ok
+test_filled_card_missing_core_and_placeholder_rejected (test_stage_validation.Readiness.test_filled_card_missing_core_and_placeholder_rejected) ... ok
+test_skipped_coach_and_false_final (test_stage_validation.Readiness.test_skipped_coach_and_false_final) ... ok
+test_stage6_validates_calendar_and_iana_zone_but_accepts_history (test_stage_validation.Readiness.test_stage6_validates_calendar_and_iana_zone_but_accepts_history) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.469s
+
+OK

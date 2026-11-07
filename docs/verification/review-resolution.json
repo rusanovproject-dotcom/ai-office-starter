@@ -1,0 +1,33 @@
+{
+  "review_run_id": "20261107-143125-f5561ac8",
+  "original_receipt": "ce-review.json",
+  "original_status": "complete",
+  "original_verdict": "Ready with fixes",
+  "resolution": "all_confirmed_findings_closed",
+  "closed": [
+    {
+      "finding": 1,
+      "change": "Field-bounded32+hex credential scan; clean SHA/Git/URL/data controls"
+    },
+    {
+      "finding": 2,
+      "change": "inbox owner-data classification, private-only for changed/imported data"
+    },
+    {
+      "finding": 3,
+      "change": "Restored webm/m4a/oga/aac/flac, checks committed history including deleted files"
+    },
+    {
+      "finding": 4,
+      "change": "date.fromisoformat and ZoneInfo; valid historical dates accepted"
+    }
+  ],
+  "verification": [
+    "review-fixes-red.txt",
+    "review-fixes-green.txt",
+    "review-fixes-independent.json",
+    "tests.txt"
+  ],
+  "remaining_findings": [],
+  "source_manifest_sha256": "f14baa6a9047d709f0c6d58cfaa0a932a66fc0114a908950ed372e62155f13e7"
+}

@@ -1,0 +1,28 @@
+{
+  "description": "Local office lifecycle. Review exact source definitions via /hooks; updates change the bundle fingerprint.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact|fork",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'd=\"$PWD\"; while [ ! -f \"$d/.office-template.json\" ] && [ \"$d\" != / ]; do d=\"$(dirname \"$d\")\"; done; [ -f \"$d/.office-template.json\" ] || { echo \"BLOCKED: office root not found\" >&2; exit 1; }; exec bash \"$d/scripts/office/run.sh\" adapter codex' # office-hook-bundle:52754c66c9c85411df629b96a0b93bcfa7f5b3a3727113c94a7beac30b5959f4",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'd=\"$PWD\"; while [ ! -f \"$d/.office-template.json\" ] && [ \"$d\" != / ]; do d=\"$(dirname \"$d\")\"; done; [ -f \"$d/.office-template.json\" ] || { echo \"BLOCKED: office root not found\" >&2; exit 1; }; exec bash \"$d/scripts/office/run.sh\" adapter codex' # office-hook-bundle:52754c66c9c85411df629b96a0b93bcfa7f5b3a3727113c94a7beac30b5959f4",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
