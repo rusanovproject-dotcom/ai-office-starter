@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "facts": [
+    {
+      "id": "name",
+      "subject": "owner",
+      "kind": "fact",
+      "status": "confirmed",
+      "value": "Анна",
+      "source": "synthetic confirmed interview",
+      "confirmed_at": "2026-11-07"
+    },
+    {
+      "id": "context",
+      "subject": "owner",
+      "kind": "fact",
+      "status": "confirmed",
+      "value": "Новичок, локальный учебный офис",
+      "source": "synthetic confirmed interview",
+      "confirmed_at": "2026-11-07"
+    },
+    {
+      "id": "style",
+      "subject": "owner",
+      "kind": "preference",
+      "status": "confirmed",
+      "value": "Объясняйте на простом примере; у меня 30 минут и нет бюджета",
+      "source": "synthetic confirmed interview",
+      "confirmed_at": "2026-11-07"
+    }
+  ],
+  "rules": [
+    {
+      "basis": "style",
+      "action": "Начинай с одного выполнимого за 30 минут шага и готового примера; используй имеющиеся бесплатные средства",
+      "scope": "Задачи об организации работы с заявками",
+      "exception": "Существенные ограничения не скрывай; новый платный сервис только после отдельного разрешения"
+    }
+  ],
+  "boundaries": [
+    {
+      "topic": "Доход",
+      "status": "declined"
+    }
+  ]
+}

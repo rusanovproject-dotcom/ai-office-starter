@@ -1,0 +1,221 @@
+test_contextual_hex_credentials_and_clean_hash_controls (test_privacy_gate.PrivacyGate.test_contextual_hex_credentials_and_clean_hash_controls) ... 
+  test_contextual_hex_credentials_and_clean_hash_controls (test_privacy_gate.PrivacyGate.test_contextual_hex_credentials_and_clean_hash_controls) (field='api_key') ... FAIL
+  test_contextual_hex_credentials_and_clean_hash_controls (test_privacy_gate.PrivacyGate.test_contextual_hex_credentials_and_clean_hash_controls) (field='API_KEY') ... FAIL
+  test_contextual_hex_credentials_and_clean_hash_controls (test_privacy_gate.PrivacyGate.test_contextual_hex_credentials_and_clean_hash_controls) (field='token') ... FAIL
+  test_contextual_hex_credentials_and_clean_hash_controls (test_privacy_gate.PrivacyGate.test_contextual_hex_credentials_and_clean_hash_controls) (field='secret') ... FAIL
+  test_contextual_hex_credentials_and_clean_hash_controls (test_privacy_gate.PrivacyGate.test_contextual_hex_credentials_and_clean_hash_controls) (field='password') ... FAIL
+  test_contextual_hex_credentials_and_clean_hash_controls (test_privacy_gate.PrivacyGate.test_contextual_hex_credentials_and_clean_hash_controls) (field='key') ... FAIL
+test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) ... 
+  test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='webm', deleted=False) ... FAIL
+  test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='webm', deleted=True) ... FAIL
+  test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='m4a', deleted=False) ... FAIL
+  test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='m4a', deleted=True) ... FAIL
+  test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='oga', deleted=False) ... FAIL
+  test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='oga', deleted=True) ... FAIL
+  test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='aac', deleted=False) ... FAIL
+  test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='aac', deleted=True) ... FAIL
+  test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='flac', deleted=False) ... FAIL
+  test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='flac', deleted=True) ... FAIL
+test_existing_credential_formats_remain_blocked (test_privacy_gate.PrivacyGate.test_existing_credential_formats_remain_blocked) ... ok
+test_inbox_owner_data_in_current_and_deleted_history (test_privacy_gate.PrivacyGate.test_inbox_owner_data_in_current_and_deleted_history) ... 
+  test_inbox_owner_data_in_current_and_deleted_history (test_privacy_gate.PrivacyGate.test_inbox_owner_data_in_current_and_deleted_history) (deleted=False) ... FAIL
+  test_inbox_owner_data_in_current_and_deleted_history (test_privacy_gate.PrivacyGate.test_inbox_owner_data_in_current_and_deleted_history) (deleted=True) ... FAIL
+test_metadata_and_unmanifested_personal_root_are_private (test_privacy_gate.PrivacyGate.test_metadata_and_unmanifested_personal_root_are_private) ... ok
+test_private_unknown_and_secret_history (test_privacy_gate.PrivacyGate.test_private_unknown_and_secret_history) ... ok
+test_zero_sha_deletion_and_unreadable_history (test_privacy_gate.PrivacyGate.test_zero_sha_deletion_and_unreadable_history) ... ok
+
+======================================================================
+FAIL: test_contextual_hex_credentials_and_clean_hash_controls (test_privacy_gate.PrivacyGate.test_contextual_hex_credentials_and_clean_hash_controls) (field='api_key')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 90, in test_contextual_hex_credentials_and_clean_hash_controls
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:True)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_contextual_hex_credentials_and_clean_hash_controls (test_privacy_gate.PrivacyGate.test_contextual_hex_credentials_and_clean_hash_controls) (field='API_KEY')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 90, in test_contextual_hex_credentials_and_clean_hash_controls
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:True)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_contextual_hex_credentials_and_clean_hash_controls (test_privacy_gate.PrivacyGate.test_contextual_hex_credentials_and_clean_hash_controls) (field='token')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 90, in test_contextual_hex_credentials_and_clean_hash_controls
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:True)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_contextual_hex_credentials_and_clean_hash_controls (test_privacy_gate.PrivacyGate.test_contextual_hex_credentials_and_clean_hash_controls) (field='secret')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 90, in test_contextual_hex_credentials_and_clean_hash_controls
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:True)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_contextual_hex_credentials_and_clean_hash_controls (test_privacy_gate.PrivacyGate.test_contextual_hex_credentials_and_clean_hash_controls) (field='password')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 90, in test_contextual_hex_credentials_and_clean_hash_controls
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:True)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_contextual_hex_credentials_and_clean_hash_controls (test_privacy_gate.PrivacyGate.test_contextual_hex_credentials_and_clean_hash_controls) (field='key')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 90, in test_contextual_hex_credentials_and_clean_hash_controls
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:True)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='webm', deleted=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 83, in test_each_legacy_media_format_blocked_even_in_deleted_history
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:private)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='webm', deleted=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 83, in test_each_legacy_media_format_blocked_even_in_deleted_history
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:private)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='m4a', deleted=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 83, in test_each_legacy_media_format_blocked_even_in_deleted_history
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:private)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='m4a', deleted=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 83, in test_each_legacy_media_format_blocked_even_in_deleted_history
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:private)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='oga', deleted=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 83, in test_each_legacy_media_format_blocked_even_in_deleted_history
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:private)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='oga', deleted=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 83, in test_each_legacy_media_format_blocked_even_in_deleted_history
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:private)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='aac', deleted=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 83, in test_each_legacy_media_format_blocked_even_in_deleted_history
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:private)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='aac', deleted=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 83, in test_each_legacy_media_format_blocked_even_in_deleted_history
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:private)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='flac', deleted=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 83, in test_each_legacy_media_format_blocked_even_in_deleted_history
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:private)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_each_legacy_media_format_blocked_even_in_deleted_history (test_privacy_gate.PrivacyGate.test_each_legacy_media_format_blocked_even_in_deleted_history) (extension='flac', deleted=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 83, in test_each_legacy_media_format_blocked_even_in_deleted_history
+    with self.assertRaises(ValueError):check(repo,refs,'synthetic',private_check=lambda _:private)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_inbox_owner_data_in_current_and_deleted_history (test_privacy_gate.PrivacyGate.test_inbox_owner_data_in_current_and_deleted_history) (deleted=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 74, in test_inbox_owner_data_in_current_and_deleted_history
+    with self.assertRaises(ValueError):check(repo,refs,'unknown',private_check=lambda _:False)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_inbox_owner_data_in_current_and_deleted_history (test_privacy_gate.PrivacyGate.test_inbox_owner_data_in_current_and_deleted_history) (deleted=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_privacy_gate.py", line 74, in test_inbox_owner_data_in_current_and_deleted_history
+    with self.assertRaises(ValueError):check(repo,refs,'unknown',private_check=lambda _:False)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 7 tests in 3.864s
+
+FAILED (failures=18)
+test_empty_coach_not_ready (test_stage_validation.Readiness.test_empty_coach_not_ready) ... ok
+test_filled_card_missing_core_and_placeholder_rejected (test_stage_validation.Readiness.test_filled_card_missing_core_and_placeholder_rejected) ... ok
+test_skipped_coach_and_false_final (test_stage_validation.Readiness.test_skipped_coach_and_false_final) ... ok
+test_stage6_validates_calendar_and_iana_zone_but_accepts_history (test_stage_validation.Readiness.test_stage6_validates_calendar_and_iana_zone_but_accepts_history) ... 
+  test_stage6_validates_calendar_and_iana_zone_but_accepts_history (test_stage_validation.Readiness.test_stage6_validates_calendar_and_iana_zone_but_accepts_history) (day='2026-99-99', zone='Asia/Ho_Chi_Minh') ... FAIL
+  test_stage6_validates_calendar_and_iana_zone_but_accepts_history (test_stage_validation.Readiness.test_stage6_validates_calendar_and_iana_zone_but_accepts_history) (day='2026-11-07', zone='Mars/Olympus') ... FAIL
+
+======================================================================
+FAIL: test_stage6_validates_calendar_and_iana_zone_but_accepts_history (test_stage_validation.Readiness.test_stage6_validates_calendar_and_iana_zone_but_accepts_history) (day='2026-99-99', zone='Asia/Ho_Chi_Minh')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_stage_validation.py", line 43, in test_stage6_validates_calendar_and_iana_zone_but_accepts_history
+    with self.assertRaises(ValueError):check_stage(self.root,6)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_stage6_validates_calendar_and_iana_zone_but_accepts_history (test_stage_validation.Readiness.test_stage6_validates_calendar_and_iana_zone_but_accepts_history) (day='2026-11-07', zone='Mars/Olympus')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_stage_validation.py", line 43, in test_stage6_validates_calendar_and_iana_zone_but_accepts_history
+    with self.assertRaises(ValueError):check_stage(self.root,6)
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.460s
+
+FAILED (failures=2)

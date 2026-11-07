@@ -1,0 +1,13 @@
+{
+  "root": "/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/office-release-final-84zk0wbe/Чистый клон с пробелами",
+  "checks": {
+    "bootstrap": "[office-bootstrap] gate=PASS snapshot=PASS:20261107T075509-0e80ae23\n\n[start] Новый офис: office-build, если нет ясной рабочей задачи.",
+    "manifest": "template-manifest=ok",
+    "skills": "skills=ok",
+    "registry": "registry=ok"
+  },
+  "source_commit": "b6ac2047ab46a1cbfd5ca06c8fbb5f1f563be448",
+  "clean_before": true,
+  "clean_after_bootstrap": true,
+  "clone_origin": "local source checkout only"
+}

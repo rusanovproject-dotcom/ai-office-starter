@@ -1,0 +1,66 @@
+{
+  "status": "complete",
+  "verdict": "Ready to merge",
+  "scope": {
+    "base": "99e93948304004fb7d4a42fce944fe21d4b1d6dc",
+    "branch": "codex/universal-client-office",
+    "head_sha": "99e93948304004fb7d4a42fce944fe21d4b1d6dc",
+    "pr_url": null,
+    "files_changed": 35
+  },
+  "intent": "Close the confirmed five-agent audit defects: active-only onboarding readiness; substantive methodology and artifact-backed hiring with independent expert assessment; restored profession-specific templates; transferable consultant knowledge, availability-aware fallback, owner style and honest role memory.",
+  "intent_confidence": "explicit",
+  "reviewers": [
+    "correctness"
+  ],
+  "findings": [],
+  "actionable_findings": [],
+  "triage_groups": [],
+  "pre_existing_findings": [],
+  "requirements_completeness": null,
+  "learnings": [],
+  "agent_native_gaps": [],
+  "deployment_notes": [],
+  "residual_risks": [
+    "The presence of a result, criterion, assessment and distinct named reviewer is mechanically checked; semantic expertise and actual reviewer independence still require the initiator to evaluate the recorded evidence, as documented in office-hire."
+  ],
+  "testing_gaps": [
+    "This reviewer did not rerun the full suite or model trials; those authoritative checks are owned by the parent. New hiring and active-only readiness regression tests were inspected."
+  ],
+  "coverage": {
+    "depth": "lite",
+    "scope_mode": "base",
+    "criteria_files": [
+      "AGENTS.md",
+      "CLAUDE.md"
+    ],
+    "criteria_source": "instruction-file fallback; no governing CODING_STANDARDS.md",
+    "review_policy": {
+      "sources": [],
+      "removed": 0,
+      "regraded": 0,
+      "not_applied": []
+    },
+    "compound_packs": "none declared",
+    "agents_dispatched": 0,
+    "adversarial_selection": "No credible material external-effect scenario introduced: local role activation does not grant tools or external authority; false readiness alone does not select adversarial.",
+    "not_assessed": [
+      "learnings corpus",
+      "agent-native capability gaps",
+      "deployment notes",
+      "full earlier PR changes before the supplied base"
+    ],
+    "excluded_untracked": [
+      "docs/verification/nikita-behavior-check.md"
+    ],
+    "verification": {
+      "template_manifest": "PASS",
+      "canonical_to_claude_skill_copy_bytes": "PASS: 21 canonical files, zero mismatches",
+      "git_diff_check": "PASS",
+      "materialize_check": "BLOCKED: ENOSPC creating skills.lock; read-only byte comparison substituted, not claimed runtime PASS"
+    },
+    "environment": "Main disk ENOSPC; only review artifacts written to parent-provided session RAM disk. No source/index/manifest changes."
+  },
+  "artifact_path": "/Volumes/OfficeFinalTests/ce-code-review/agent-fixes-014386e0",
+  "run_id": "agent-fixes-014386e0"
+}

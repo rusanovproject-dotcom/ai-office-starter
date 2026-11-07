@@ -1,0 +1,7 @@
+{
+  "eval_id": 3,
+  "prompt": "Помоги наладить ответы на заявки",
+  "configuration": "boris-baseline",
+  "comparison": "same office and skills; only personal context differs",
+  "source_hashes": "../../../../../.office/verification/runtime/paired-source-hashes.json"
+}

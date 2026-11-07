@@ -59,3 +59,15 @@ team/ops/session-state
 .claude/settings.local.json
 
 # clients/ НЕ игнорируется намеренно — см. шапку.
+
+# Local runtime and acceptance output
+__pycache__/
+*.pyc
+.office/*.lock/
+.office/state.json
+.office/snapshots/
+.office/backups/
+.office/conflicts/
+dist/
+
+.office/verification/

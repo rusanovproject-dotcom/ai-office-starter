@@ -1,0 +1,55 @@
+test_stale_mit_not_injected (test_focus.Focus.test_stale_mit_not_injected) ... FAIL
+test_role_not_alias (test_routing.Routing.test_role_not_alias) ... FAIL
+test_empty_coach_not_ready (test_stage_validation.Readiness.test_empty_coach_not_ready) ... FAIL
+test_substitution_does_not_verify (test_update_integrity.Integrity.test_substitution_does_not_verify) ... FAIL
+test_truncation_does_not_verify (test_update_integrity.Integrity.test_truncation_does_not_verify) ... FAIL
+
+======================================================================
+FAIL: test_stale_mit_not_injected (test_focus.Focus.test_stale_mit_not_injected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_focus.py", line 7, in test_stale_mit_not_injected
+    self.assertNotIn('[focus]', result.stdout)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '[focus]' unexpectedly found in '[now] 2026-11-07 13:10 (Sat) — реальное текущее время, авторитетно.\n[focus] MIT: старый синтетический приоритет \n'
+
+======================================================================
+FAIL: test_role_not_alias (test_routing.Routing.test_role_not_alias)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_routing.py", line 7, in test_role_not_alias
+    self.assertNotIn('[агент] Это вызов агента «Никита»', result.stdout)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '[агент] Это вызов агента «Никита»' unexpectedly found in '[now] 2026-11-07 13:10 (Sat) — реальное текущее время, авторитетно.\n[агент] Это вызов агента «Никита» — прочитай team/agents/nikita/core.md (+его card.md и память рядом: имя и характер могли выбрать заново) ПЕРЕД первым ответом от его лица.\n'
+
+======================================================================
+FAIL: test_empty_coach_not_ready (test_stage_validation.Readiness.test_empty_coach_not_ready)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_stage_validation.py", line 11, in test_empty_coach_not_ready
+    self.assertNotEqual(self.hook('stage-check.sh', '3').returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_substitution_does_not_verify (test_update_integrity.Integrity.test_substitution_does_not_verify)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_update_integrity.py", line 16, in test_substitution_does_not_verify
+    self.assertNotEqual(self.hook('update-office-sync.sh', 'verify', backup).returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_truncation_does_not_verify (test_update_integrity.Integrity.test_truncation_does_not_verify)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro132017/workspace/library/templates/ai-office-starter/tests/test_update_integrity.py", line 9, in test_truncation_does_not_verify
+    self.assertNotEqual(self.hook('update-office-sync.sh', 'verify', backup).returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.479s
+
+FAILED (failures=5)

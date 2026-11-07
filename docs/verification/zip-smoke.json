@@ -1,0 +1,25 @@
+{
+  "kind": "zip",
+  "root": "/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/office-release-final-84zk0wbe/Распаковка с пробелами/ai-office-starter",
+  "exit_code": 0,
+  "elapsed_s": 22.32,
+  "output_exists": true,
+  "content": "Тема: Подтверждение встречи — демонстрация прототипа\n\nЗдравствуйте, команда «Пример»!\n\nПодтверждаем встречу 10 ноября в 11:00. Тема встречи — демонстрация прототипа учебной студии «Контур».\n\nДо встречи!\n\nкоманда «Контур»\n",
+  "content_ok": true,
+  "command": [
+    "python3",
+    "/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/office-release-final-84zk0wbe/Распаковка с пробелами/ai-office-starter/office-start.py",
+    "codex",
+    "--no-daemon",
+    "exec",
+    "--ignore-user-config",
+    "--skip-git-repo-check",
+    "--ephemeral",
+    "--sandbox",
+    "workspace-write",
+    "--json",
+    "-o",
+    "/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/office-release-final-84zk0wbe/zip-final.md"
+  ],
+  "auth_link_removed": true
+}

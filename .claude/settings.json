@@ -18,29 +18,16 @@
       "Edit(.env.*)",
       "Edit(**/.env)",
       "Edit(**/.env.*)",
-      "Write(.env)",
-      "Write(.env.*)",
-      "Write(**/.env)",
-      "Write(**/.env.*)",
       "Edit(*.pem)",
       "Edit(**/*.pem)",
-      "Write(*.pem)",
-      "Write(**/*.pem)",
       "Edit(credentials*)",
       "Edit(**/credentials*)",
-      "Write(credentials*)",
-      "Write(**/credentials*)",
       "Edit(secrets*)",
       "Edit(**/secrets*)",
-      "Write(secrets*)",
-      "Write(**/secrets*)",
       "Edit(config.env)",
       "Edit(**/config.env)",
-      "Write(config.env)",
-      "Write(**/config.env)",
       "Bash(rm -rf:*)",
       "Bash(rm -fr:*)",
-
       "Bash(curl:*)",
       "Bash(wget:*)",
       "Bash(scp:*)",
@@ -63,7 +50,6 @@
       "Bash(gh api:*)",
       "Bash(gh repo create:*)",
       "Bash(*--dangerously-skip-permissions*)",
-
       "Bash(git remote add:*)",
       "Bash(git remote set-url:*)",
       "Bash(git -c:*)",
@@ -80,19 +66,12 @@
   "hooks": {
     "SessionStart": [
       {
-        "matcher": "startup|clear",
+        "matcher": "startup|resume|clear|compact|fork",
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/pd-gate-install.sh\""
-          },
-          {
-            "type": "command",
-            "command": "bash \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/git-safety.sh\" snapshot"
-          },
-          {
-            "type": "command",
-            "command": "bash \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/session-load.sh\""
+            "command": "bash -c 'd=\"$PWD\"; while [ ! -f \"$d/.office-template.json\" ] && [ \"$d\" != / ]; do d=\"$(dirname \"$d\")\"; done; [ -f \"$d/.office-template.json\" ] || { echo \"BLOCKED: office root not found\" >&2; exit 1; }; exec bash \"$d/scripts/office/run.sh\" adapter claude' # office-hook-bundle:980224663fa434f928a4938775d782600b07880540f6564b89cb2020c4ab04b0",
+            "timeout": 30
           }
         ]
       }
@@ -102,7 +81,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/prompt-inject.sh\""
+            "command": "bash -c 'd=\"$PWD\"; while [ ! -f \"$d/.office-template.json\" ] && [ \"$d\" != / ]; do d=\"$(dirname \"$d\")\"; done; [ -f \"$d/.office-template.json\" ] || { echo \"BLOCKED: office root not found\" >&2; exit 1; }; exec bash \"$d/scripts/office/run.sh\" adapter claude' # office-hook-bundle:980224663fa434f928a4938775d782600b07880540f6564b89cb2020c4ab04b0",
+            "timeout": 30
           }
         ]
       }

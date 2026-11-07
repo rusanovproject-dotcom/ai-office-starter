@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "facts": [
+    {
+      "id": "name",
+      "subject": "owner",
+      "kind": "fact",
+      "status": "confirmed",
+      "value": "Вера",
+      "source": "synthetic confirmed interview",
+      "confirmed_at": "2026-11-07"
+    },
+    {
+      "id": "context",
+      "subject": "owner",
+      "kind": "fact",
+      "status": "confirmed",
+      "value": "Работает по найму, ведёт учебный проект",
+      "source": "synthetic confirmed interview",
+      "confirmed_at": "2026-11-07"
+    },
+    {
+      "id": "style",
+      "subject": "owner",
+      "kind": "preference",
+      "status": "confirmed",
+      "value": "Учебную работу делаю только по выходным; кейс клиента не мой бизнес",
+      "source": "synthetic confirmed interview",
+      "confirmed_at": "2026-11-07"
+    }
+  ],
+  "rules": [
+    {
+      "basis": "style",
+      "action": "Для учебного проекта предлагай шаг на выходные и явно отделяй факты чужого кейса от сведений обо мне",
+      "scope": "Учебный проект и его заявки",
+      "exception": "Явное поручение на сегодня уточняет срок этой задачи; чужие сведения всё равно не становятся моими"
+    }
+  ],
+  "boundaries": []
+}

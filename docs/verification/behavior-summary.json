@@ -1,0 +1,161 @@
+{
+  "tool": "codex-cli 0.166.0",
+  "host": "macOS Darwin arm64",
+  "model": "CLI default; model name not emitted in captured JSONL, not asserted",
+  "runs": {
+    "anna-baseline": {
+      "name": "anna-baseline",
+      "exit": 0,
+      "seconds": 40.48,
+      "final_exists": true,
+      "office": "/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/universal-office-behavior-yei__vi9/anna-baseline/office"
+    },
+    "anna-correction": {
+      "name": "anna-correction",
+      "exit": 0,
+      "seconds": 57.15,
+      "final_exists": true
+    },
+    "anna-personal": {
+      "name": "anna-personal",
+      "exit": 0,
+      "seconds": 70.15,
+      "final_exists": true,
+      "office": "/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/universal-office-behavior-yei__vi9/anna-personal/office"
+    },
+    "boris-baseline": {
+      "name": "boris-baseline",
+      "exit": 0,
+      "seconds": 44.14,
+      "final_exists": true,
+      "office": "/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/universal-office-behavior-yei__vi9/boris-baseline/office"
+    },
+    "boris-personal": {
+      "name": "boris-personal",
+      "exit": 0,
+      "seconds": 70.23,
+      "final_exists": true,
+      "office": "/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/universal-office-behavior-yei__vi9/boris-personal/office"
+    },
+    "irrelevant": {
+      "name": "irrelevant",
+      "exit": 0,
+      "seconds": 26.57,
+      "final_exists": true
+    },
+    "vera-baseline": {
+      "name": "vera-baseline",
+      "exit": 0,
+      "seconds": 114.84,
+      "final_exists": true,
+      "office": "/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/universal-office-behavior-yei__vi9/vera-baseline/office"
+    },
+    "vera-personal": {
+      "name": "vera-personal",
+      "exit": 0,
+      "seconds": 80.48,
+      "final_exists": true,
+      "office": "/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/universal-office-behavior-yei__vi9/vera-personal/office"
+    }
+  },
+  "claims": [
+    {
+      "case": "anna-pair",
+      "status": "PASS",
+      "criteria": [
+        "Персональный результат содержит один шаг на30мин, бесплатные имеющиеся заметки и готовый пример ответа",
+        "Не предложен новый платный сервис и не задан вопрос о доходе",
+        "Базовый ответ запрашивает общие вводные, персональный уже выбирает доступное действие"
+      ],
+      "evidence": [
+        "anna-baseline/final.txt",
+        "anna-personal/final.txt"
+      ]
+    },
+    {
+      "case": "boris-pair",
+      "status": "PASS",
+      "criteria": [
+        "Решение в существующей CRM",
+        "Первый ответ и контроль передаются помощнику",
+        "Нет сменыCRM и вводного обучения основам"
+      ],
+      "evidence": [
+        "boris-baseline/final.txt",
+        "boris-personal/final.txt"
+      ]
+    },
+    {
+      "case": "vera-pair",
+      "status": "PASS",
+      "criteria": [
+        "Выбран учебный проект projects/study",
+        "Создан локальный replies.md и план на выходные",
+        "Чужой кейс явно отделён от бизнеса Веры, цены и сроки не выдуманы"
+      ],
+      "evidence": [
+        "vera-baseline/final.txt",
+        "vera-personal/final.txt",
+        "vera-personal/office/projects/study/replies.md"
+      ],
+      "limits": [
+        "Конкретных чужих сумм в этой fixture не было; перенос конкретной суммы этим run не проверен"
+      ]
+    },
+    {
+      "case": "anna-correction-new-chat",
+      "status": "PASS",
+      "criteria": [
+        "Прямая синтетическая поправка записана единой personalize.py",
+        "НовыйHOME и новая CLI-сессия используют тот же офис",
+        "Действие сменилось с новичкового шага на техническийCRM-регламент; старая память не откатила предпочтение"
+      ],
+      "evidence": [
+        "anna-corrected-profile.json",
+        "anna-correction/final.txt"
+      ]
+    },
+    {
+      "case": "irrelevant",
+      "status": "PASS",
+      "criteria": [
+        "Корректный391",
+        "В model-visible trace ноль shell commands; полнаябиография/коуч не загружались явным чтением"
+      ],
+      "evidence": [
+        "irrelevant/final.txt",
+        "irrelevant/events.jsonl"
+      ],
+      "limits": [
+        "Bootstrap в этой сессии не выполнялся; техническая проверка защиты здесь SKIPPED, не PASS",
+        "Нативно автоматически включённый краткий owner-блок уже был в AGENTS; нулевое использование любой личной информации не утверждается"
+      ]
+    }
+  ],
+  "isolation": {
+    "outside_workspace": true,
+    "empty_HOME": true,
+    "empty_CODEX_HOME": true,
+    "ignore_user_config": true,
+    "no_daemon": true,
+    "no_global_skills_or_memory_added": true,
+    "auth": "temporary symlink only; never read/printed by harness; all links removed",
+    "sandbox": "workspace-write",
+    "hook_trust_bypass": false,
+    "sandbox_bypass": false
+  },
+  "coverage_limits": [
+    "Тестировали Codex; Claude и cross-host switch этим прогоном не подтверждены",
+    "Консультационные результаты/локальные artifacts, без реальнойCRM, отправки сообщений или публикации",
+    "Native lifecycle/trust проверяет родитель отдельно; прямые bootstrap-команды не равны lifecycle",
+    "Нативное чтение AGENTS не выводится отдельным событием; behavior и explicit command traces разделены",
+    "Одна выборка на условие; статистическая устойчивость не измерялась"
+  ],
+  "artifacts": {
+    "source_hashes": "source-hashes.json",
+    "commands_and_messages": "observations.json",
+    "raw_events": "<case>/events.jsonl",
+    "inputs": "<case>/input.json",
+    "finals": "<case>/final.txt"
+  }
+}

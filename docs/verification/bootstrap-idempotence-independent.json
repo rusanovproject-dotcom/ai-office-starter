@@ -1,0 +1,59 @@
+{
+  "status": "complete",
+  "scope": "Focused independent review of install_gate idempotent verification fastpath",
+  "reviewed_at": "2026-11-07T07:54:16.134205+00:00",
+  "source_sha256": {
+    "scripts/office/bootstrap.py": "fa1e12178ac2b9d5f6be08061ad1714640fbf7b6a1a99cdbebdf67a4a86b1f4b",
+    "scripts/office/hooks.py": "351dc55455fdfff6158a6235ecb5680043cd142203626756790fd153bfa550b1",
+    "tests/test_bootstrap.py": "f1bcf42278021ed40e62d7c5a65905dd0de8e54f05359c06a16540b99971f3ab"
+  },
+  "result": "PASS",
+  "targeted_tests": {
+    "command": "python3 -m unittest discover -s tests -p test_bootstrap.py -v",
+    "tests": 9,
+    "status": "PASS"
+  },
+  "independent_probes": [
+    {
+      "id": "exact-executable",
+      "status": "PASS",
+      "observed": "PASS without atomic_write; inode, bytes and mode unchanged"
+    },
+    {
+      "id": "exact-non-executable",
+      "status": "PASS",
+      "observed": "BLOCKED:install-failed when chmod cannot be repaired"
+    },
+    {
+      "id": "missing-source-before-fastpath",
+      "status": "PASS",
+      "observed": "BLOCKED:no-source"
+    },
+    {
+      "id": "foreign-hook",
+      "status": "PASS",
+      "observed": "BLOCKED:foreign-pre-push, foreign bytes unchanged"
+    },
+    {
+      "id": "symlink-exact-shim",
+      "status": "PASS",
+      "observed": "BLOCKED:foreign-pre-push before fastpath, target unchanged"
+    },
+    {
+      "id": "external-hooks-path",
+      "status": "PASS",
+      "observed": "BLOCKED:hooks-external before fastpath"
+    },
+    {
+      "id": "changed-executable-source-native-trust",
+      "status": "PASS",
+      "observed": "native command fingerprint changes; stale definition rejected; no trust state changed"
+    }
+  ],
+  "remaining_findings": [],
+  "limits": [
+    "No live model run performed in this independent check; parent owns actual sandbox runtime acceptance.",
+    "Synthetic temporary office only. No source/index/Git changes in working repository; only this evidence written.",
+    "No native hook trust accepted or bypassed; no Claude invocation."
+  ]
+}

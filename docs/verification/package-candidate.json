@@ -1,0 +1,17 @@
+{
+  "result": {
+    "path": "/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/office-release-final-84zk0wbe/candidate.zip",
+    "sha256": "105e42c40d57da53abedab57ad49be92775e9e3c590b86024c2e2f2f5f2db52d",
+    "files": 142,
+    "candidate": true
+  },
+  "extracted": "/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/office-release-final-84zk0wbe/Распаковка с пробелами/ai-office-starter",
+  "checks": {
+    "bootstrap": "[office-bootstrap] gate=SKIPPED:not-git snapshot=PASS:20261107T075509-1cc7c0c4\n\n[start] Новый офис: office-build, если нет ясной рабочей задачи.",
+    "manifest": "template-manifest=ok",
+    "skills": "skills=ok",
+    "registry": "registry=ok"
+  },
+  "no_git": true,
+  "zip_sha256": "105e42c40d57da53abedab57ad49be92775e9e3c590b86024c2e2f2f5f2db52d"
+}

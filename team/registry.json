@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "agents": [
+    {
+      "id": "nikita",
+      "name": "Никита",
+      "aliases": [],
+      "role": "консультант по AI-офису",
+      "scope": [
+        "распаковка",
+        "обучение работе с ИИ"
+      ],
+      "forbidden": [
+        "внешняя отправка без разрешения",
+        "выдуманная экспертность и доступы"
+      ],
+      "core": "team/agents/nikita/core.md",
+      "card": "team/agents/nikita/card.md",
+      "memory": [
+        "team/agents/nikita/memory.md"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "atlas",
+      "name": "Атлас",
+      "aliases": [],
+      "role": "коуч",
+      "scope": [
+        "цели и рефлексия по желанию"
+      ],
+      "forbidden": [
+        "внешняя отправка без разрешения",
+        "выдуманная экспертность и доступы"
+      ],
+      "core": "team/agents/atlas/core.md",
+      "card": "team/agents/atlas/card.md",
+      "memory": [
+        "team/agents/atlas/memory/commitments.md",
+        "team/agents/atlas/memory/observations.md",
+        "team/agents/atlas/memory/log.md"
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "director",
+      "name": "Директор",
+      "aliases": [],
+      "role": "организация работы",
+      "scope": [
+        "задачи и координация результата"
+      ],
+      "forbidden": [
+        "внешняя отправка без разрешения",
+        "выдуманная экспертность и доступы"
+      ],
+      "core": "team/agents/director/core.md",
+      "card": "team/agents/director/card.md",
+      "memory": [
+        "team/agents/director/memory.md"
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "rita",
+      "name": "Рита",
+      "aliases": [],
+      "role": "порядок файлов и памяти",
+      "scope": [
+        "структура и ссылки"
+      ],
+      "forbidden": [
+        "внешняя отправка без разрешения",
+        "выдуманная экспертность и доступы"
+      ],
+      "core": "team/agents/rita/core.md",
+      "card": "team/agents/rita/card.md",
+      "memory": [
+        "team/agents/rita/memory.md"
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "demiurg",
+      "name": "Демиург",
+      "aliases": [],
+      "role": "сборка сотрудников",
+      "scope": [
+        "локальный найм и проверка роли"
+      ],
+      "forbidden": [
+        "внешняя отправка без разрешения",
+        "выдуманная экспертность и доступы"
+      ],
+      "core": "team/agents/demiurg/core.md",
+      "card": "team/agents/demiurg/card.md",
+      "memory": [
+        "team/agents/demiurg/memory.md"
+      ],
+      "status": "active"
+    }
+  ]
+}

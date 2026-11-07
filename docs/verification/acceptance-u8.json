@@ -1,0 +1,138 @@
+{
+  "overall": "PASS_WITH_SKIPS",
+  "scope": "Local Codex CLI0.166.0 on macOS arm64; full two-client runtime readiness NOT asserted",
+  "checked_at": "2026-11-07T07:58:05.246807+00:00",
+  "branch": "codex/universal-client-office",
+  "source_code_commit": "b6ac2047ab46a1cbfd5ca06c8fbb5f1f563be448",
+  "source_manifest_sha256": "4be2fcbfa2bf2260253a232832377e345679ded6ef8ea29e1f0565c3a9385ed5",
+  "blockers": [],
+  "checks": [
+    {
+      "name": "unit_tests",
+      "status": "PASS",
+      "evidence": [
+        "tests.txt"
+      ],
+      "detail": "81 tests, full suite, Python3.14.6/macOS arm64;23.620s"
+    },
+    {
+      "name": "codex_runtime",
+      "status": "PASS",
+      "evidence": [
+        "behavior-summary.json",
+        "runtime-finals/",
+        "zip-smoke.json",
+        "clone-smoke.json"
+      ],
+      "detail": "Actual Codex CLI0.166.0 model calls; isolated HOME/CODEX_HOME; no private office dependency"
+    },
+    {
+      "name": "package_extraction",
+      "status": "PASS",
+      "evidence": [
+        "package-candidate.json",
+        "zip-smoke.json"
+      ],
+      "detail": "142 clean files, Cyrillic/spaces path, no Git or symlink; actual launcher/model output"
+    },
+    {
+      "name": "clone_smoke",
+      "status": "PASS",
+      "evidence": [
+        "clone-mechanical.json",
+        "clone-smoke.json"
+      ],
+      "detail": "Local source clone b6ac204; clean before/after bootstrap, gatePASS; actual launcher/model output"
+    },
+    {
+      "name": "independent_review",
+      "status": "PASS",
+      "evidence": [
+        "ce-review.json",
+        "review-resolution.json",
+        "review-fixes-independent.json",
+        "bootstrap-idempotence-independent.json"
+      ],
+      "detail": "Completed CE review, four confirmed findings closed; extra runtime bootstrap fix independently verified; no remaining findings"
+    },
+    {
+      "name": "data_preservation",
+      "status": "PASS",
+      "evidence": [
+        "actual-update.json",
+        "tests.txt",
+        "bootstrap-runtime.json"
+      ],
+      "detail": "11 owner files byte-identical; failure/restore/migration tests; later populated goal office update.apply"
+    },
+    {
+      "name": "native_lifecycle",
+      "status": "PASS",
+      "evidence": [
+        "native-hook-evidence.json",
+        "native-hook-tui.txt",
+        "tests.txt"
+      ],
+      "detail": "Actual native trust, SessionStart/UserPromptSubmit, resume/compact; fingerprints change on executable source edits"
+    },
+    {
+      "name": "goal_change_and_recall",
+      "status": "PASS",
+      "evidence": [
+        "goal-behavior.json",
+        "bootstrap-runtime.json"
+      ],
+      "detail": "Explicit permanent goal correction, same id, project first and role+skill; fresh-chat recall after update"
+    },
+    {
+      "name": "multiple_outputs_and_temporary_style",
+      "status": "PASS",
+      "evidence": [
+        "multi-output.json"
+      ],
+      "detail": "Both outputs completed, client facts excluded from public draft, canonical profile/owner block unchanged"
+    },
+    {
+      "name": "bootstrap_sandbox_repeat",
+      "status": "PASS",
+      "evidence": [
+        "bootstrap-runtime.json",
+        "bootstrap-idempotence-green.txt"
+      ],
+      "detail": "Real model command inside workspace-write returned gatePASS; exact installed executable not rewritten"
+    },
+    {
+      "name": "claude_model",
+      "status": "SKIPPED",
+      "evidence": [
+        "environment.md"
+      ],
+      "detail": "Explicit user instruction: клод не трогаем. его не тестим сейчас; no invocations afterward"
+    },
+    {
+      "name": "cross_host_switch",
+      "status": "SKIPPED",
+      "evidence": [
+        "environment.md"
+      ],
+      "detail": "Codex↔Claude actual model handoff not exercised per user instruction"
+    },
+    {
+      "name": "windows_linux_desktop",
+      "status": "SKIPPED",
+      "evidence": [
+        "environment.md"
+      ],
+      "detail": "No separate runtime environment; no readiness claim"
+    },
+    {
+      "name": "real_remote_visibility_and_push",
+      "status": "SKIPPED",
+      "evidence": [
+        "review-fixes-independent.json"
+      ],
+      "detail": "Synthetic Git histories/private_check only; no external publication/push"
+    }
+  ],
+  "limits": "REPORT.md"
+}

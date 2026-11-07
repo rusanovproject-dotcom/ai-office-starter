@@ -1,0 +1,65 @@
+{
+  "verdict": "PASS_WITH_LIMITS",
+  "checked_at": "2026-11-07T09:57:52.632748+00:00",
+  "independence": "Separate native reviewer context; no source edits or new model calls.",
+  "source": "/Volumes/OfficeFinalTests/office-final-model-eles382g/summary.json",
+  "runs": [
+    {
+      "run": "before-consult",
+      "status": "PASS",
+      "exit_code": 0,
+      "artifact_exists": true,
+      "artifact_matches_summary": true
+    },
+    {
+      "run": "before-no-web",
+      "status": "PASS",
+      "exit_code": 0,
+      "artifact_exists": true,
+      "artifact_matches_summary": true
+    },
+    {
+      "run": "after-consult",
+      "status": "PASS",
+      "exit_code": 0,
+      "artifact_exists": true,
+      "artifact_matches_summary": true
+    },
+    {
+      "run": "after-no-web",
+      "status": "PASS",
+      "exit_code": 0,
+      "artifact_exists": true,
+      "artifact_matches_summary": true
+    }
+  ],
+  "claims": [
+    {
+      "claim": "consult: existing CRM, no new services/costs, one checkable step and draft, respectful вы without irony",
+      "status": "PASS",
+      "evidence": "Both before-consult and after-consult actual artifacts satisfy these constraints. Prices/terms remain explicit source-dependent fields; deadlines and realised savings are not invented. No CRM execution or external send is claimed."
+    },
+    {
+      "claim": "no-web: current plan/price/context not fabricated; no claimed research",
+      "status": "PASS",
+      "evidence": "Both no-web artifacts explicitly leave current plan, price and context unknown and separate stable selection criteria. Completed trace items contain local commands and file changes, no web/search or external-send item."
+    },
+    {
+      "claim": "new knowledge actually read in after-consult",
+      "status": "PASS",
+      "evidence": "Completed command cats practices/task-to-automation.md and practices/check-result.md; captured output contains both full notes. The command exits 1 because subsequent team/ops/threads.md is absent; the knowledge reads themselves succeeded."
+    },
+    {
+      "claim": "no observed regression relative to baseline99e9394 in these two scenarios",
+      "status": "PASS",
+      "evidence": "All four runs exited 0 and saved the requested artifact. Baseline also passes, so improvement in output quality is not demonstrated by this sample."
+    }
+  ],
+  "limits": [
+    "One sample per scenario per version; no statistical robustness or general superiority claim.",
+    "Evaluates two consultation scenarios, not complete expertise of all five roles or the hiring interaction.",
+    "No real CRM, message sending, purchasing, live pricing verification or Claude model runtime was exercised.",
+    "After offices have no Git and bootstrap correctly reports gate=SKIPPED:not-git; this is not proof of a passed Git privacy gate or native hook trust.",
+    "Four non-JSON launcher lines per trace were inspected separately; JSON completed items and actual artifact bytes were used for evaluation."
+  ]
+}

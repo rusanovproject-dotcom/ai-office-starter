@@ -1,0 +1,34 @@
+{
+  "result": {
+    "status": "updated",
+    "backup": "/private/var/folders/fk/cyh5c5r92tn_v028l7y_5d1h0000gn/T/universal-office-runtime-hmkr2vk5/офис с пробелами/.office/backups/runtime-update",
+    "legacy": false
+  },
+  "owner_hashes_before": {
+    "me/profile.md": "62b7602c257c0fa73d35ae2f067317b2ae1d4d0a8172f34734b0a27e50bcabd7",
+    "me/goals.md": "a7ed1ea165b99386b062d196cffb24d767e08df90c3bf0ad85d88c4cf5a24e30",
+    "work/map.md": "7d11c7eef94e647daee6eee983a829da47b5c895a4a66cd2789fbe7b7590b3da",
+    "results/reply.md": "9eb802a9f471cd6cf1b7b2a5e8bb29de190ef28d4fa15c66404cbe97be2bd961",
+    "results/sofia-reply.md": "b24ce0435134ec197843a259a2edd80dc3897ffa48e958b808d2e222677e3fbd",
+    "team/agents/sofia/core.md": "77b4fcd8dc68e64281dd8113095aef5b4fae7e3fe4889249ac830b862b74fe45",
+    "team/agents/sofia/card.md": "7b98ab9060e32115ff928e67de2d96ef3a4b9c2364f18ed89a18103d8d65d3d0",
+    "team/agents/sofia/memory.md": "e8873b2babe24616ed1c932f2a176bf664d649f3b32dcddb225f3040720745df",
+    "knowledge/approved-replies.md": "6414a339b8bef5a3c13cf385411e1c4844e51d00c56129faee32d086f38f2b2b",
+    "team/ops/build-log.md": "df5034ac588077bee5b04687addfc041de1b57ac7d65a708c1643251097d4c28",
+    "team/ops/threads.md": "054094f45e2d1de7e68f51b805dd4eb87990c33532a1c5042105035846747534"
+  },
+  "owner_hashes_after": {
+    "me/profile.md": "62b7602c257c0fa73d35ae2f067317b2ae1d4d0a8172f34734b0a27e50bcabd7",
+    "me/goals.md": "a7ed1ea165b99386b062d196cffb24d767e08df90c3bf0ad85d88c4cf5a24e30",
+    "work/map.md": "7d11c7eef94e647daee6eee983a829da47b5c895a4a66cd2789fbe7b7590b3da",
+    "results/reply.md": "9eb802a9f471cd6cf1b7b2a5e8bb29de190ef28d4fa15c66404cbe97be2bd961",
+    "results/sofia-reply.md": "b24ce0435134ec197843a259a2edd80dc3897ffa48e958b808d2e222677e3fbd",
+    "team/agents/sofia/core.md": "77b4fcd8dc68e64281dd8113095aef5b4fae7e3fe4889249ac830b862b74fe45",
+    "team/agents/sofia/card.md": "7b98ab9060e32115ff928e67de2d96ef3a4b9c2364f18ed89a18103d8d65d3d0",
+    "team/agents/sofia/memory.md": "e8873b2babe24616ed1c932f2a176bf664d649f3b32dcddb225f3040720745df",
+    "knowledge/approved-replies.md": "6414a339b8bef5a3c13cf385411e1c4844e51d00c56129faee32d086f38f2b2b",
+    "team/ops/build-log.md": "df5034ac588077bee5b04687addfc041de1b57ac7d65a708c1643251097d4c28",
+    "team/ops/threads.md": "054094f45e2d1de7e68f51b805dd4eb87990c33532a1c5042105035846747534"
+  },
+  "equal": true
+}
