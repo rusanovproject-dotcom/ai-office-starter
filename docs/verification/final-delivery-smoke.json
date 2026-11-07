@@ -1,0 +1,40 @@
+{
+  "source_code_commit": "f2b24310f211d3d5164ce79e837364b3f0ea53e6",
+  "clone_checks": [
+    {
+      "command": [
+        "python3",
+        "scripts/office/bootstrap.py"
+      ],
+      "exit_code": 0,
+      "stdout": "[office-bootstrap] gate=PASS snapshot=PASS:20261107T095736-e19dd2d7\n\n[start] Новый офис: office-build, если нет ясной рабочей задачи.",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/office/manifest.py"
+      ],
+      "exit_code": 0,
+      "stdout": "template-manifest=ok",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/office/materialize.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "skills=ok",
+      "stderr": ""
+    }
+  ],
+  "package": {
+    "sha256": "9c83440a6bd268c240a250e27f363e53613ea6ce8a91508e9659d311b21f7eb1",
+    "files": 147,
+    "bootstrap": "[office-bootstrap] gate=SKIPPED:not-git snapshot=PASS:20261107T095736-621f6fec\n\n[start] Новый офис: office-build, если нет ясной рабочей задачи.",
+    "scope": "mechanical extraction, forbidden-file check, explicit bootstrap; model runs use matching source copy"
+  },
+  "scope": "fresh local Git clone and ZIP mechanical checks; not native hook trust/model invocation"
+}
