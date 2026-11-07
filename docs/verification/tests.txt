@@ -1,4 +1,5 @@
 test_adapter_json_and_no_python_diagnostic (test_bootstrap.Bootstrap.test_adapter_json_and_no_python_diagnostic) ... ok
+test_existing_exact_executable_gate_is_verified_without_rewrite (test_bootstrap.Bootstrap.test_existing_exact_executable_gate_is_verified_without_rewrite) ... ok
 test_foreign_hook_not_replaced (test_bootstrap.Bootstrap.test_foreign_hook_not_replaced) ... ok
 test_hook_source_change_requires_new_native_definition (test_bootstrap.Bootstrap.test_hook_source_change_requires_new_native_definition) ... ok
 test_install_and_foreign_hooks_path (test_bootstrap.Bootstrap.test_install_and_foreign_hooks_path) ... ok
@@ -80,6 +81,6 @@ test_legacy_claude_core_and_directory_memory_kept (test_upgrade_migration.Migrat
 test_legacy_profile_goal_and_custom_skill_survive (test_upgrade_migration.Migration.test_legacy_profile_goal_and_custom_skill_survive) ... ok
 
 ----------------------------------------------------------------------
-Ran 80 tests in 24.109s
+Ran 81 tests in 23.620s
 
 OK

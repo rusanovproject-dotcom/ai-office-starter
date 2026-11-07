@@ -79,3 +79,18 @@ class Bootstrap(OfficeTest):
         with self.assertRaises(ValueError):generate(self.root,check=True)
         generate(self.root)
         generate(self.root,check=True)
+    def test_existing_exact_executable_gate_is_verified_without_rewrite(self):
+        from unittest.mock import patch
+        from bootstrap import install_gate,SHIM
+        self.git('init','-q')
+        self.assertEqual(install_gate(self.root),'PASS')
+        hook=self.root/'.git/hooks/pre-push'
+        before=hook.stat().st_ino
+        # Models cannot write .git in workspace-write; an installed gate only needs reading.
+        with patch('bootstrap.atomic_write',side_effect=PermissionError('synthetic .git read-only')):
+            self.assertEqual(install_gate(self.root),'PASS')
+        self.assertEqual(hook.read_text(),SHIM)
+        self.assertEqual(hook.stat().st_ino,before)
+        hook.chmod(0o600)
+        with patch('bootstrap.atomic_write',side_effect=PermissionError('synthetic .git read-only')):
+            self.assertEqual(install_gate(self.root),'BLOCKED:install-failed')

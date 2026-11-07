@@ -37,6 +37,8 @@ def install_gate(root):
     if dst.exists():
         text=dst.read_text(encoding='utf-8',errors='replace')
         if SIGNATURE not in text and 'ПД-гейт офиса v3' not in text:return 'BLOCKED:foreign-pre-push'
+        # Rechecking from a model sandbox must not require writing Git metadata.
+        if text==SHIM and os.access(dst,os.X_OK):return 'PASS'
     try:
         atomic_write(dst,SHIM)
         dst.chmod(0o700)

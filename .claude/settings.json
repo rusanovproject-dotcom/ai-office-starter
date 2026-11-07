@@ -70,7 +70,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'd=\"$PWD\"; while [ ! -f \"$d/.office-template.json\" ] && [ \"$d\" != / ]; do d=\"$(dirname \"$d\")\"; done; [ -f \"$d/.office-template.json\" ] || { echo \"BLOCKED: office root not found\" >&2; exit 1; }; exec bash \"$d/scripts/office/run.sh\" adapter claude' # office-hook-bundle:52754c66c9c85411df629b96a0b93bcfa7f5b3a3727113c94a7beac30b5959f4",
+            "command": "bash -c 'd=\"$PWD\"; while [ ! -f \"$d/.office-template.json\" ] && [ \"$d\" != / ]; do d=\"$(dirname \"$d\")\"; done; [ -f \"$d/.office-template.json\" ] || { echo \"BLOCKED: office root not found\" >&2; exit 1; }; exec bash \"$d/scripts/office/run.sh\" adapter claude' # office-hook-bundle:c2e6d6ae0641ac4f0d9886ef6928ba7e0b5d3ee52e2722b7581dabaf6f22b9ef",
             "timeout": 30
           }
         ]
@@ -81,7 +81,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'd=\"$PWD\"; while [ ! -f \"$d/.office-template.json\" ] && [ \"$d\" != / ]; do d=\"$(dirname \"$d\")\"; done; [ -f \"$d/.office-template.json\" ] || { echo \"BLOCKED: office root not found\" >&2; exit 1; }; exec bash \"$d/scripts/office/run.sh\" adapter claude' # office-hook-bundle:52754c66c9c85411df629b96a0b93bcfa7f5b3a3727113c94a7beac30b5959f4",
+            "command": "bash -c 'd=\"$PWD\"; while [ ! -f \"$d/.office-template.json\" ] && [ \"$d\" != / ]; do d=\"$(dirname \"$d\")\"; done; [ -f \"$d/.office-template.json\" ] || { echo \"BLOCKED: office root not found\" >&2; exit 1; }; exec bash \"$d/scripts/office/run.sh\" adapter claude' # office-hook-bundle:c2e6d6ae0641ac4f0d9886ef6928ba7e0b5d3ee52e2722b7581dabaf6f22b9ef",
             "timeout": 30
           }
         ]

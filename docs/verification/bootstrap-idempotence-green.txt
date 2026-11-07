@@ -1,0 +1,14 @@
+test_adapter_json_and_no_python_diagnostic (test_bootstrap.Bootstrap.test_adapter_json_and_no_python_diagnostic) ... ok
+test_existing_exact_executable_gate_is_verified_without_rewrite (test_bootstrap.Bootstrap.test_existing_exact_executable_gate_is_verified_without_rewrite) ... ok
+test_foreign_hook_not_replaced (test_bootstrap.Bootstrap.test_foreign_hook_not_replaced) ... ok
+test_hook_source_change_requires_new_native_definition (test_bootstrap.Bootstrap.test_hook_source_change_requires_new_native_definition) ... ok
+test_install_and_foreign_hooks_path (test_bootstrap.Bootstrap.test_install_and_foreign_hooks_path) ... ok
+test_no_git_and_install_error (test_bootstrap.Bootstrap.test_no_git_and_install_error) ... ok
+test_snapshot_does_not_commit_index_or_copy_secrets (test_bootstrap.Bootstrap.test_snapshot_does_not_commit_index_or_copy_secrets) ... ok
+test_snapshot_does_not_follow_runtime_symlink (test_bootstrap.Bootstrap.test_snapshot_does_not_follow_runtime_symlink) ... ok
+test_zip_and_foreign_parent_repo (test_bootstrap.Bootstrap.test_zip_and_foreign_parent_repo) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 1.191s
+
+OK
